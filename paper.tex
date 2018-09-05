@@ -1,4 +1,4 @@
-\documentclass[10pt]{article}
+ \documentclass[10pt]{article}
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{amsthm}
@@ -66,7 +66,7 @@ We insist on the fact that the initial values are represented by an infinite bou
 
 It is well-known that, for all $k\in\nn$, the term of the sequence defined at Equation~\eqref{context} can be expressed as follows:
 \[
-x_k=A^k x_0+ \sum_{i=0}^{k-1} A^i b,\ x_0\in\xin
+x_k=A^k x_0+ \sum_{i=0}^{k-1} A^i b,\ x_0\in\xin
 \]
 
 From the latter expression of the state-variables, we can define the reachable values set $\rea$ of the affine system presented at Eq.~\eqref{context} :
@@ -239,6 +239,7 @@ Let $P\in\lyap{A}$. We define the following formula :
 
 Let $t>0$ and $P\in\lyap{A}$ such that $P\in \lyat{A,Q}$. Let us define the following formula :
 \begin{equation}
+\label{intgfond}
 K(t,P)=\left\lfloor \dfrac{\ln\left[\left(\sqr{\lfrak+\vqQ(t,P)^2}-\vqQ(t,P)\right)\left(\sqr{t}\mu(P)\right)^{-1}\right]}{\ln\left(\norm{A}_P\right)}\right\rfloor+1
 \end{equation}
 where 
@@ -293,11 +294,12 @@ It suffices to show that both numerator and denominator are negative and finite.
 %Since $\lyat{A,Q}\subseteq \lyap{A}$, a proof of $\norm{A}_P\in (0,1)$ for $P\in\lyap{A}$ is only required.
 
 \begin{lemma}
+\label{lyapnorm}
 For all $P\in\lyap{A}$, $0<\norm{A}_P<1$. 
 \end{lemma}
 
 \begin{proof}
-Let $P$ such that $P\succ 0$ and $P-A^\intercal P A\succ 0$.First, the matrix $A$ is not null then its spectral radius is strictly positive. Then since $\norm{\cdot}_P$ is a matrix norm, $0<\rho(A) \leq \norm{A}_P$.
+Let $P$ such that $P\succ 0$ and $P-A^\intercal P A\succ 0$.First, the matrix $A$ is not null then its spectral radius is strictly positive. Then since $\norm{\cdot}_P$ is a matrix norm, $0<\rho(A) \leq \norm{A}_P$.
 
 Secondly, since $P-A^\intercal P A\succ 0$, $\norm{A}_P\leq 1$. Thus, to prove $\norm{A}_P<1$, it suffices to exhibit $\varepsilon>0$ such that $(1-\varepsilon) P-A^\intercal P A\succeq 0$ with $0<\varepsilon<1$. 
 
@@ -326,7 +328,7 @@ For all $t>0$ and $P\in\lyap{A}$ such that $P\in\lyat{A,Q}$: \[
 \end{lemma}
 
 \begin{proof}
-First $t>0$ and $P\succ 0$ then $t^{-1/2}\mu(P)^{-1}>0$ and $\vqQ(t,P)\geq 0$. Using Assumption~\ref{assumR}, we get $(\lfrak+\vqQ(t,P)^2)^{1/2}-\vqQ(t,P)> \vqQ(t,P)-\vqQ(t,P)=0$. We conclude that $\left((\lfrak+\vqQ(t,P)^2)^{1/2}-\vqQ(t,P)\right) t^{-1/2}\mu(P)^{-1}>0$. 
+First $t>0$ and $P\succ 0$ then $t^{-1/2}\mu(P)^{-1}>0$ and $\vqQ(t,P)\geq 0$. Using Assumption~\ref{assumR}, we get $(\lfrak+\vqQ(t,P)^2)^{1/2}-\vqQ(t,P)> \vqQ(t,P)-\vqQ(t,P)=0$. We conclude that $\left((\lfrak+\vqQ(t,P)^2)^{1/2}-\vqQ(t,P)\right) t^{-1/2}\mu(P)^{-1}>0$. 
 
 Now, since $\lfrak$, $\vqQ(t,P)$ are non-negative and for all $a,b\geq 0$, $\sqrt{a+b}\leq \sqrt{a}+\sqrt{b}$  then : 
 $(\lfrak+\vqQ(t,P)^2)^{1/2}\leq \lfrak^{1/2}+\vqQ(t,P)$. Hence : 
@@ -372,11 +374,11 @@ Let us define \[\bigk=\min\left\{\inf_{t>0}\inf_{P\in\lyat{A,Q}} K(t,P),\inf_{P\
 \begin{proof}
 Let $t>0$ and $P\in\lyap{A}$ such that $P\in\lyat{A,Q}$. Let also $k\in\nn$ and $x\in\xin$. We have:
 \[
-x^\intercal (A^k)^\intercal Q A^k x & \\
+x^\intercal (A^k)^\intercal Q A^k x  
 \leq  t \norm{A^k x}_P^2\leq t\norm{A}^{2k}_P \norm{x}^2_P
 \leq t\norm{A}_P^{2k} \mu(P)^2
 \]
-The first inequality comes from the definition of $\lyat{A,Q}$, the second from the matrix norm definition and the last from the definition of $\mu(P)$.
+The first inequality comes from the definition of $\lyat{A,Q}$, the second from the matrix norm definition and the last from the definition of $\mu(P)$ (see Eq.~\eqref{intgfond}).
 
 We also have, for all $x\in\xin$:
 \[
@@ -388,20 +390,30 @@ The first inequality comes from Cauchy-Schwarz, the second from Lemma~\ref{lemma
 
 Summing the two parts leads to :
 \[
-x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x\leq \left(\sqrt(t)\norm{A}_P^k\mu(
+x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x\leq \left(\sqrt{t}\norm{A}_P^k\mu(P)+\vqQ(t,P)\right)^2-\vqQ(t,P)^2
 \]
-
-Let $t>0$ and $P\in\lyap{A}$ such that $P\in\lyat{A,Q}$ and $\bigk=K(\bt,\bP)$. Let also $x\in\xin$.
- 
-Let $x\in\xin$ and $k\geq \kappa_1(P)$.  
+where $\vqQ$ is defined at Eq.~\eqref{intgfond}. Then, $ \left(\sqrt{t}\norm{A}_P^k\mu(P)+\vqQ(t,P)\right)^2-\vqQ(t,P)^2\leq \lfrak$ implies that $ \max_{x\in \xin} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x\leq \lfrak$. Now, we remark that  $\left(\sqrt{t}\norm{A}_P^k\mu(P)+\vqQ(t,P)\right)^2-\vqQ(t,P)^2\leq \lfrak$ is equivalent to :
+\[
+\norm{A}_P^k\leq \left(\sqr{\lfrak+\vqQ(t,P)^2}-\vqQ(t,P)\right)\left(\sqr{t}\mu(P)\right)^{-1}
+\]
+Using the natural logarithm and Lemma~\ref{lyapnorm}, the condition  $k\geq K(t,P)$ is sufficient for the latter inequality .  The latter proof is valid for all couple $t>0$ and $P\in\lyap{A}$ such that $P\in\lyat{A,Q}$. So it remains true for   $\bt>0$ and $\bP\in\lyap{A}$ such that $P\in\lyat{A,Q}$ and $\bigk=K(\bt,\bP)$. 
 \end{proof}
-We recall that $\lfrak$ is smaller than $\max_{x\in\xin} x^\intercal Q x+q^\intercal x$ then the optimal value of Problem~\ref{pbopt} is greater than $\lfrak$ since $\xin\subseteq \rea$. We conclude that, following Th.~\ref{thfond}, the optimal value of Problem~\ref{pbopt} is attained for powers of $A$ between 0 and $\bigk$.
+We recall that $\lfrak$ is smaller than $\max_{x\in\xin} x^\intercal Q x+q^\intercal x$. Hence, the optimal value of Problem~\ref{pbopt} is greater than $\lfrak$ since $\xin\subseteq \rea$. We conclude that, following Th.~\ref{thfond}, the optimal value of Problem~\ref{pbopt} is attained for powers of $A$ between 0 and $\bigk$.
 
 \begin{corollary}
+The following statement is true :
  \[
 \max_{y\in\rea} y^\intercal Q y+q^\intercal y=\max_{0\leq k\leq \bigk} \max_{x\in \mathcal{E}(\xin)} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k
 \]
 \end{corollary}
+
+
+The integer $\bigk$ is the best integer than we can get theoretically. In practice, we cannot compute this integer since we cannot solve the minimization problems :
+\[
+\inf_{t>0}\inf_{P\in\lyat{A,Q}} K(t,P)\text{ and }\inf_{P\in\lyap{A}}K(\lmax{P^{-1/2} Q P^{-1/2}},P)
+\]
+In practice, for the moment, we only compute two integers : $K( \lmax{Q},P)$ where $P$ is an optimal solution of $\inf\{\lmax(P)\mid 
+P\in \lyam{A,Q}\}$ and $K(\lmax{P^{-1/2} Q P^{-1/2}},P)$ where $P$ is an optimal solution of $\inf\{\lmax{P}\mid P\in\lyap{A}\}$. We take after the minimum of the  two integers.
 
 \subsection{From linear systems to affine ones}
 \label{affine}
