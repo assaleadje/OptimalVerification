@@ -195,11 +195,20 @@ Finally, we need a third related set . For all $P\succ 0$, we define:
 \]
 \end{comment}
 Actually we can bound $\cont(P)$ from below. Since $P$ is positive definite, we can use the inverse of the square root $P^{-1/2}$ of $P$ . We recall that this matrix is defined from the spectral decomposition of $P=U D U^\intercal$ where $D$ is a diagonal  matrix of ordered eigenvalues $\lambda_k(P)$ and $U$ is an orthogonal matrix i.e. $U U^\intercal = U^\intercal U=\Idd$.   The matrix  $P^{-1/2}$ is thus defined by 
-$UD^{-1/2} U^\intercal$ where $D^{-1/2}$ is the diagonal matrix whose the diagonal elements are equal $\lambda_k(P)^{-1/2}$. This easy to see that $P^{-1/2} P^{-1/2}=P^{-1}$. 
+$U D^{-1/2} U^\intercal$ where $D^{-1/2}$ is the diagonal matrix whose the diagonal elements are equal $\lambda_k(P)^{-1/2}$. This easy to see that $P^{-1/2} P^{-1/2}=P^{-1}$. 
 
 \begin{prop}
 For all $P\succ 0$, for all $t\in\cont(P)$, $t\geq \lmax{P^{-1/2} Q P^{-1/2}}$.
 \end{prop}
+\begin{proof}
+Let $P\succ 0$, let $t\in\cont(P)$. Let $x\in\rd$, $x\neq 0$. We have 
+$x^\intercal Q x\leq t x^\intercal P x$ and thus $(x^\intercal Q x)(x^\intercal P x)^{-1}\leq t$. Finally:
+$\sup_{x\neq 0}(x^\intercal Q x)(x^\intercal P x)^{-1}\leq t $. Writing $y=P^{1/2}x$ ( recall that $P^{1/2}$ is invertible as $P\succ 0$), we obtain :
+$\sup_{y\neq 0}(y^\intercal P^{-1/2}Q P^{-1/2}y)(y^\intercal y)^{-1}\leq t $. However, it is well-know that
+$\sup_{z\neq 0} (z^\intercal M z)(z^\intercal z)^{-1}=\lmax{M}$. In fact, $\lmax{M}$ is achieved for an eigenvector associated with $\lmax{M}$. Hence, 
+$\sup_{y\neq 0} (y^\intercal P^{-1/2}Q P^{-1/2}y)(y^\intercal y)^{-1}=\lmax{P^{-1/2} Q P^{-1/2}}$. Finally $\lmax{P^{-1/2} Q P^{-1/2}}P-Q\succeq 0$ is a direct consequence of Lemma~\ref{lemma1}. 
+
+\end{proof}
 \begin{comment}
 \begin{prop}
 For all matrix $A$ of size $d\times d$ such that the spectral radius is strictly smaller than 1. For all symmetric matrix $Q$ of size $d\times d$: 
@@ -353,13 +362,27 @@ we conclude that $\alpha(Q,\xin) \alpha(P,\xin)^{-1}\lambda_{d}(P)\lambda_1(Q)^{
 \begin{prop}
 The following assertions are true:
 \begin{itemize}
-\item For all $P\in\lyap{A}$, the function defined on $\cont(P)$, $t\mapsto K(t,P)$ is decreasing. Then : 
+\item For all $P\in\lyap{A}$, the function defined on $\cont(P)$, $t\mapsto K(t,P)$ is increasing. Then : 
 \[
 \inf_{P\in\lyap{A}} \inf_{t\in\cont(P)} K(t,P)=\inf_{P\in\lyap{A}}K(\lmax{P^{-1/2} Q P^{-1/2}},P)
 \]
 \item For all $t>0$, the function defined on $\lyat{A,Q}$, $P\mapsto K(t,P)$ is decreasing w.r.t. the Lowner order.
 \end{itemize}
 \end{prop}
+
+\begin{proof}
+Let $P\in\lyap{A}$. Let $t\in\cont(P)$. The integer part is increasing then we have to prove that the argument of the integer part is increasing in $t$. From Lemma~\ref{lemma2}, we know that $\ln{\norm{A}_P}<0$. Hence, since the natural logarithm is increasing it suffices to show that $\varphi:t:\mapsto \left(\sqr{\lfrak+\vqQ(t,P)^2}-\vqQ(t,P)\right)\left(\sqr{t}\mu(P)\right)^{-1}$ is decreasing. However :
+\[
+\begin{array}{lll}
+\varphi(t)&=&\dfrac{\lfrak}{\left(\sqr{\lfrak+\vqQ(t,P)^2}+\vqQ(t,P)\right)\sqr{t}\mu(P)}\\
+\\
+&=&\dfrac{\lfrak}{\left(\sqr{\lfrak+\dfrac{\norm{q}_2^2 }{4t\lmin{P}}}+\dfrac{\norm{q}_2 }{2\sqr{t\lmin{P}}}\right)\sqr{t}\mu(P)}\\
+\\
+&=&\dfrac{\lfrak}{\left(\sqr{t\lfrak+\dfrac{\norm{q}_2^2 }{4\lmin{P}}}+\dfrac{\norm{q}_2 }{2\sqr{\lmin{P}}}\right)\mu(P)}
+\end{array}
+\]
+We conclude that $\varphi$
+\end{proof}
 
 We now present the main result of the paper. %Note that again, we use the fact that $P\in\lyap{A}$ implies that $P\in\displaystyle{\mathcal{L}_{\bar t}(A,Q)}$ with $\bar t=\lambda_d(P)\lambda(Q)^{-1}$ to present a result for $\lyat{A,Q}$.
 
@@ -408,13 +431,21 @@ The following statement is true :
 \end{corollary}
 
 
-The integer $\bigk$ is the best integer than we can get theoretically. In practice, we cannot compute this integer since we cannot solve the minimization problems :
+The integer $\bigk$ is the best integer than we can get in theory. In practice, we cannot compute this integer since we cannot solve the minimization problems :
 \[
 \inf_{t>0}\inf_{P\in\lyat{A,Q}} K(t,P)\text{ and }\inf_{P\in\lyap{A}}K(\lmax{P^{-1/2} Q P^{-1/2}},P)
 \]
-In practice, for the moment, we only compute two integers : $K( \lmax{Q},P)$ where $P$ is an optimal solution of $\inf\{\lmax(P)\mid 
-P\in \lyam{A,Q}\}$ and $K(\lmax{P^{-1/2} Q P^{-1/2}},P)$ where $P$ is an optimal solution of $\inf\{\lmax{P}\mid P\in\lyap{A}\}$. We take after the minimum of the  two integers.
-
+In practice, for the moment, we only compute two integers : $K( \lmax{Q},P)$ where $P$ is an optimal solution of a perturbation of the minimization problem : 
+\begin{equation}
+\label{minlmaxQ}
+\inf\{\lmax{P}\mid P\in \lyam{A,Q}\}
+\end{equation}
+and $K(\lmax{P^{-1/2} Q P^{-1/2}},P)$ where $P$ is an optimal solution of a perturbation of the minimization problem :
+\begin{equation}
+\label{minlyap}
+\inf\{\lmax{P}\mid P\in\lyap{A}\}\enspace .
+\end{equation}
+We take after the minimum of the  two integers. We come back latter on the perturbation of the two minimization problems at Section~\ref{computations}.
 \subsection{From linear systems to affine ones}
 \label{affine}
 Let us consider the same problem where we replace the linear dynamics by an affine one:
@@ -452,7 +483,7 @@ Finally, we apply the results developed in Subsection~\ref{mainsub} with $Q=Q'$ 
 \]
 Assumption~\ref{assum1} becomes $\mathfrak{L}'>0$.
 \section{Computation of $\kappa_1$ and $\kappa_2$}
-
+\label{computations}
 First for each $\kappa$ we have to solve a semi-definite program to compute a matrix $P$ which satisfies 
 a Lyapunov equation.
 To compute $\alpha(Q,\xin)$ and $\alpha(P,\xin)$, we use Lemma~\ref{lemma2}, after computing once the vertices of $\xin$. 
