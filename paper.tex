@@ -30,11 +30,18 @@
 \begin{document}
 \maketitle
 \section{Introduction}
+Goal of verification : some catastrophic events\ForAuthors{citer quelques evenements catastrophiques} caused by bugs in programs leaded to a new branch in computer science called formal verification of programs\ForAuthors{trouver une citation sur les premiers travaux en verification}. Formal verification provides a deeper analysis compared to traditional test techniques. Indeed, tests cannot cover all possible situation. The principle of formal verification consists in an exhaustive approach to prove properties on programs. Various techniques exist but none of them cannot be complete. 
+
+Numerical programs in an ideal world can be viewed as a discrete-time dynamical systems. Some numerical
+programs comes from discretization or linearization techniques. Thus linear systems forms a huge class of interesting problems. 
+
+
 During the last twenty years,  the verification of linear systems techniques evolve and propose new challenges. Classical approaches come from theoretical computer science. Those approaches are based on static analysis such as model-checking or abstract interpretation. 
 The goal of the paper is to offer a complete analysis of discrete-time linear systems.
 Indeed, the static analysis of such systems based on abstract interpretation can prove 
 valid properties. However, because abstractions and the presence of false alarms, the challenge which consists in invalidating properties remains extremely difficult for analyzers. The problem addressed here can be reduced to maximize a function over the reachable values set of a dynamical system.
-The method developed here consists in replacing an infinite numbers of maximization problems by a finite number of them.  We propose to compute an integer after which we know that the optimal value cannot be reached.  
+The method developed here consists in replacing an infinite numbers of maximization problems by a finite number of them.  We propose to compute an integer after which we know that the optimal value cannot be reached. 
+
 \section{Notations}
 In this paper, we denote by $\Idd$ the identity matrix of size $d\times d$. We denote, for a matrix $M$, by $M^\intercal$ the transpose of $M$. The set of the (square) symmetric matrices  (the matrices $M$ such that $M=M^\intercal$) of size $d$ is denoted by $\sym$.  
 
@@ -104,7 +111,7 @@ For the matrix $A$ of the affine system considered at Eq.~\eqref{context}, we in
 \[
 \lyap{A}=\{P\in\sym \mid P\succ 0,\ P-A^\intercal P A\succ 0\}\enspace .
 \]
-Hence, $\rho(A)<1$ ensures that $\lyap{A}$ is non-empty.
+Hence, $\rho(A)<1$ ensures that $\lyap{A}$ is non-empty. More precisely, $\rho(A)<1$ if and only if for all positive definite matrices $R$ there exists a unique positive definite matrix $P$ such that $P-A^\intercal P A=R$. \ForAuthors{reference sur stein equation}
 
 To prove some results, we need to recall some basic results presented as lemmas. The first one involves a double inequality between quadratic forms and Euclidean norm. When the quadratic form is positive definite then the double inequality proves the norm equivalence between the norm defined by the quadratic form and the Euclidean norm with explicit constants. 
 \begin{lemma}
@@ -138,7 +145,7 @@ Let $C$ be a polytope and $f:\rd\to\rd$ a convex function. Then:
 \]
 where $\mathcal{E}(C)$ denotes the finite set of the extreme points (vertices) of $C$.
 \end{lemma}
-
+Note that the result also holds for convex compacts sets.  
 %\begin{lemma}[]
 
 %\end{lemma}
@@ -163,20 +170,25 @@ The matrix $Q$ is non-null and positive semi-definite.
 \end{assumption}
 
 From Assumption~\ref{assum1}, Problem~\eqref{pbopt} has a finite optimal value if either $\rea$ is bounded or for all 
-$x_0\in\xin$ that generates an unbounded sequence, the sequence $x_k=A^k x_0$ lies eventually in the null space of $Q$ ($x_k^\intercal Q x_k=0$ for sufficiently large integers $k$) and satisfies eventually $q^\intercal A^k x_0\leq \beta$ for some $\beta\in\rr$ .  We will consider bounded reachable values set. This latter restriction will not be enough for our development. Using Jordan block decompositions, the reachable values set can be bounded even if the spectral radius of $A$ is equal to 1. The construction of our $K$ depends on the fact that there exists a matrix norm $N$ such that $N(A)<1$. This condition is not compatible with the fact that the spectral radius of $A$ is equal to 1.
+$x_0\in\xin$ that generates an unbounded sequence, the sequence $x_k=A^k x_0$ lies eventually in the null space of $Q$ ($x_k^\intercal Q x_k=0$ for sufficiently large integers $k$) and satisfies eventually $q^\intercal A^k x_0\leq \beta$ for some $\beta\in\rr$ .  We will consider bounded reachable values set. This latter restriction will not be enough for our development. Using Jordan block decompositions, the reachable values set can be bounded even if the spectral radius of $A$ is equal to 1. The construction of our $K$ depends on the fact that there exists a matrix norm $N$ such that $N(A)<1$. This condition is not compatible with the case where the spectral radius of $A$ is equal to 1.
 
 \begin{assumption}
 \label{assum2}
 The spectral radius $\rho(A)$ of $A$ is strictly smaller that 1.
 \end{assumption}
 
-Assumption~\ref{assum2} ensures that $\lyap{A}\neq \emptyset$. Since for all $P\in\lyap{A}$, $P\succ 0$, we can define a norm on $\rd$ associated with $P\in\lyap{A}$ as follows: for all $x\in\rd$, $\norm{x}_P:=\sqrt{x^\intercal P x}$. 
+Assumption~\ref{assum2} ensures that $\lyap{A}\neq \emptyset$. Since for all $P\in\lyap{A}$, $P\succ 0$, we can define a norm on $\rd$ associated with $P\in\lyap{A}$ as follows: for all $x\in\rd$:
+\[\norm{x}_P:=\sqrt{x^\intercal P x}\enspace. \]
+For any norm $\norm{\cdot}$, we can define the operator norm as $\norm{A}=\max_{x\neq 0} x^\intercal A x/ x^\intercal x$. In the case where the norm is constructed from a positive definite matrix, we can compute $\norm{A}_P$ as follows:
+\begin{equation}
+    \norm{A}_P^2=\max_{x\neq 0} \dfrac{x^\intercal A^\intercal P A x}{x^\intercal P x}=\inf\{\alpha>0\mid \alpha P-A^\intercal P A\succeq 0\}
+\end{equation}
 
 Let $t>0$. We introduce the following set :  
 \[
 \conq(t)=\{P\in\sym\mid tP-Q\succeq 0\}
 \]
-Since, under Assumption~\ref{assum1}, $P\in\conq(t)$ implies that $P$ is positive semidefinite, then $\conq(t)$ is a pointed convex cone. Moreover, for all positive definite $P$, there exists $t>0$ such that $P\in \conq(t)$. 
+Since, under Assumption~\ref{assum1}, $P\in\conq(t)$ implies that $P$ is positive semi-definite, then $\conq(t)$ is a pointed convex cone. Moreover, for all positive definite matrix $P$, there exists $t>0$ such that $P\in \conq(t)$. 
 
 Then, we introduce a related set, which is parameterized by $P\in \sym$.
 \[
@@ -185,8 +197,14 @@ Then, we introduce a related set, which is parameterized by $P\in \sym$.
 
 Let us introduce the family $\lyat{A,Q}$ parameterized by positive numbers $t$ of sets of solutions of discrete Lyapunov equations defined as follows:
 \[
-\lyat{A,Q}=\conq(t)\cap\lyap{A}=\{P\succ 0\mid tP-Q\succeq 0,\ P-A^\intercal P A\succ 0\}
+\lyat{A,Q}=\conq(t)\cap\lyap{A}=\{P\succ 0\mid tP-Q\succeq 0,\ P-A^\intercal P A\succ 0\}\enspace. 
 \]
+Note that, since the set of positive definite matrix is a cone, we get the following equivalence :
+\begin{equation}
+P\in\lyat{A,Q}\iff tP\in\lyaun\enspace.
+\end{equation}
+ 
+
 \begin{comment}
 Finally, we need a third related set . For all $P\succ 0$, we define:
 
@@ -194,10 +212,11 @@ Finally, we need a third related set . For all $P\succ 0$, we define:
 \lyaa{P}=\{t>0\mid P\in\lyat{A,Q}\} 
 \]
 \end{comment}
-Actually we can bound $\cont(P)$ from below. Since $P$ is positive definite, we can use the inverse of the square root $P^{-1/2}$ of $P$ . We recall that this matrix is defined from the spectral decomposition of $P=U D U^\intercal$ where $D$ is a diagonal  matrix of ordered eigenvalues $\lambda_k(P)$ and $U$ is an orthogonal matrix i.e. $U U^\intercal = U^\intercal U=\Idd$.   The matrix  $P^{-1/2}$ is thus defined by 
+Actually we can bound $\cont(P)$ from below. Since $P$ is positive definite, we can use the inverse of the square root $P^{-1/2}$ of $P$ . We recall that this matrix is defined from the spectral decomposition of $P=U D U^\intercal$ where $D$ is a diagonal  matrix of ordered (strictly positive) eigenvalues $\lambda_k(P)$ and $U$ is an orthogonal matrix i.e. $U U^\intercal = U^\intercal U=\Idd$.   The matrix  $P^{-1/2}$ is thus defined by 
 $U D^{-1/2} U^\intercal$ where $D^{-1/2}$ is the diagonal matrix whose the diagonal elements are equal $\lambda_k(P)^{-1/2}$. This easy to see that $P^{-1/2} P^{-1/2}=P^{-1}$. 
 
 \begin{prop}
+\label{propcont}
 For all $P\succ 0$, for all $t\in\cont(P)$, $t\geq \lmax{P^{-1/2} Q P^{-1/2}}$.
 \end{prop}
 \begin{proof}
@@ -223,10 +242,19 @@ For all matrix $A$ of size $d\times d$ such that the spectral radius is strictly
 To compute our $\bigk$, we introduce a new notation and a new assumption. 
  \begin{assumption}
 \label{assumR}
-The value \[\lfrak:=\min\left\{\sup_{x\in\xin} x^\intercal Q x , \sup_{x\in\xin} x^\intercal Q x+q^\intercal x\right\}\] is strictly positive.
+There exists $k\in\nn$ such that\[\min\left\{\sup_{x\in\xin} x^\intercal Q x , \sup_{x\in\xin} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x\right\}\] is strictly positive.
 \end{assumption}
 
-Note that Assumption~\ref{assum1} is not sufficient to ensure the validity of Assumption~\ref{assumR}. The matrix $Q$ is only supposed to be positive semi-definite and thus $\sup_{x\in\xin} x^\intercal Q x$ can be null. Moreover, $\lfrak$ can be negative since $q^\intercal x$ can be negative on $\xin$. Strongest assumptions can be made : the global positivity of $x^\intercal Q x+q^\intercal x$ which is equivalent to check whether a matrix is definite positive or a copositivity condition relying $Q,q$ and $\xin$. 
+We will need the following notation:
+\[
+\ks:=\inf\left\{k\in\nn\mid \min\left\{\sup_{x\in\xin} x^\intercal Q x , \sup_{x\in\xin} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x\right\}>0\right\}
+\]
+and
+\[
+\lfrak:= \min\left\{\sup_{x\in\xin} x^\intercal Q x , \sup_{x\in\xin} x^\intercal (A^{\ks})^\intercal Q A^{\ks}k x+q^\intercal A^{\ks}x\right\}
+\]
+
+Note that Assumption~\ref{assum1} is not sufficient to ensure the validity of Assumption~\ref{assumR}. The matrix $Q$ is only supposed to be positive semi-definite and thus $\sup_{x\in\xin} x^\intercal Q x$ can be null. Moreover, $\lfrak$ can be negative since $q^\intercal A^k x$ can be negative on $\xin$. Strongest assumptions can be made : the global positivity of $x^\intercal (A^k)^\intercal  Q A^k x+q^\intercal A^k x$ which is equivalent to check whether a matrix is definite positive or a copositivity condition relying $Q,q$ and $\xin$. 
 
 %For a symmetric matrix $M$, the notation $\mu_{\xin}(M)$ stands for $\sup_{x\in\xin} x^\intercal M x$. Recall that, since $\xin$ is a polytope, from Lemma~\ref{lemma2}, $\mu_{\xin}(M)$ can be exactly computed from a finite number of evaluations of $x^\intercal M x$.
 
@@ -296,7 +324,7 @@ P\succ 0,\ P-A^\intercal P A\succ 0
 \end{comment}
 
 \begin{prop}
-For all $t>0$, $P\in \lyap{A}$ such that $P\in \lyat{A,Q}$, $0\leq K(t,P)< +\infty$.  
+For all $t>0$, $P\in \lyap{A}$ such that $P\in \lyat{A,Q}$, $1\leq K(t,P)< +\infty$.  
 \end{prop}
 
 It suffices to show that both numerator and denominator are negative and finite. Since we use the natural logarithm, this is equivalent to show that the arguments of the natural logarithm of the numerators lie in the interval $(0,1]$ and $\norm{A}_P$ lies in the interval $(0,1)$ for all $P\in\lyap{A}$. 
@@ -363,10 +391,14 @@ we conclude that $\alpha(Q,\xin) \alpha(P,\xin)^{-1}\lambda_{d}(P)\lambda_1(Q)^{
 The following assertions are true:
 \begin{itemize}
 \item For all $P\in\lyap{A}$, the function defined on $\cont(P)$, $t\mapsto K(t,P)$ is increasing. Then : 
-\[
+\begin{equation}
+\label{infsolved}
 \inf_{P\in\lyap{A}} \inf_{t\in\cont(P)} K(t,P)=\inf_{P\in\lyap{A}}K(\lmax{P^{-1/2} Q P^{-1/2}},P)
+\end{equation}
+\item For all $t>0$, for all $P\in\lyat{A,Q}$, $K(t,P)=K(1,tP)$ and thus:
+\[
+\inf_{t>0} \inf_{P\in\lyat{A,Q}} K(t,P)=\inf_{P\in\lyaun} K(1,P)
 \]
-\item For all $t>0$, the function defined on $\lyat{A,Q}$, $P\mapsto K(t,P)$ is decreasing w.r.t. the Lowner order.
 \end{itemize}
 \end{prop}
 
@@ -381,7 +413,8 @@ Let $P\in\lyap{A}$. Let $t\in\cont(P)$. The integer part is increasing then we h
 &=&\dfrac{\lfrak}{\left(\sqr{t\lfrak+\dfrac{\norm{q}_2^2 }{4\lmin{P}}}+\dfrac{\norm{q}_2 }{2\sqr{\lmin{P}}}\right)\mu(P)}
 \end{array}
 \]
-We conclude that $\varphi$
+We conclude that $t\mapsto \varphi(t)$ is decreasing as an inverse of an increasing function. 
+Finally, Eq.~\eqref{infsolved} follows from Prop.~\ref{propcont} and $t\mapsto K(t,P)$ is increasing for all $P\in\lyap{A}$.  
 \end{proof}
 
 We now present the main result of the paper. %Note that again, we use the fact that $P\in\lyap{A}$ implies that $P\in\displaystyle{\mathcal{L}_{\bar t}(A,Q)}$ with $\bar t=\lambda_d(P)\lambda(Q)^{-1}$ to present a result for $\lyat{A,Q}$.
@@ -426,11 +459,25 @@ We recall that $\lfrak$ is smaller than $\max_{x\in\xin} x^\intercal Q x+q^\inte
 \begin{corollary}
 The following statement is true :
  \[
-\max_{y\in\rea} y^\intercal Q y+q^\intercal y=\max_{0\leq k\leq \bigk} \max_{x\in \mathcal{E}(\xin)} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k
+\max_{y\in\rea} y^\intercal Q y+q^\intercal y=\max_{0\leq k\leq \bigk-1} \max_{x\in \mathcal{E}(\xin)} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x
 \]
 \end{corollary}
 
-
+\begin{proof}
+Let $k\in\nn$. We define :
+\[
+\nu_k:x\mapsto x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x 
+\]
+Using extreme points instead of the whole set $\xin$ is a direct consequence of the convexity of the functions $\nu_k$ (Assumption~\ref{assum1}) and Lemma~\ref{lemma2}.
+ \[
+ \begin{array}{lll}
+\displaystyle{\max_{y\in\rea} y^\intercal Q y+q^\intercal y}
+&=&\displaystyle{\max_{x\in \mathcal{E}(\xin)}\max\left\{\max_{0\leq k\leq \bigk-1} \nu_k(x),\max_{k\geq \bigk} \nu_k(x)\right\}}\\
+&=&\displaystyle{\max\left\{\max_{0\leq k\leq \bigk-1}\max_{x\in \mathcal{E}(\xin)} \nu_k(x),\lfrak\right\}}
+\end{array}
+\]
+The conclusion follows from the fact that  $\lfrak\leq \max_{x\in \mathcal{E}(\xin)} \nu_0(x)$.
+\end{proof}
 The integer $\bigk$ is the best integer than we can get in theory. In practice, we cannot compute this integer since we cannot solve the minimization problems :
 \[
 \inf_{t>0}\inf_{P\in\lyat{A,Q}} K(t,P)\text{ and }\inf_{P\in\lyap{A}}K(\lmax{P^{-1/2} Q P^{-1/2}},P)
