@@ -98,8 +98,6 @@ Then to prove the property boils down to compute:
 If the exact optimal value of Problem~\eqref{pbopt} can be computed then we can prove or disprove a property whereas an over-approximation can only prove a property: a too loose over-approximation i.e. greater than $\alpha$ does not imply that the property is false. 
 
 The problem in the computation of the optimal value of Problem~\eqref{pbopt} resides, first, in the infinite number of quadratic optimization problems that we have to solve. In a second time, the quadratic optimization problems are non-necessarily concave and thus can be difficult to solve. 
-
-%Making some assumptions can lead to make the problem solvable in a finite number of operations. 
 \section{Results}
 
 This section contains the main contribution of the paper i.e. the computation of the optimal value of Problem~\eqref{pbopt}. This latter computation uses a discretization of initial values set and the computation of a finite integer after which we know that the optimal cannot be reached. In this section, we begin to recall some basic results that we need in our development. We then study the case of linear systems i.e. where $b=0$ in Eq.~\eqref{context}. Finally, we show how to use the linear case to solve the case where the system is affine.   
@@ -146,9 +144,6 @@ Let $C$ be a polytope and $f:\rd\to\rd$ a convex function. Then:
 where $\mathcal{E}(C)$ denotes the finite set of the extreme points (vertices) of $C$.
 \end{lemma}
 Note that the result also holds for convex compacts sets.  
-%\begin{lemma}[]
-
-%\end{lemma}
 \subsection{Verification Linear Time-Invariant Discrete-time Systems}
 \label{mainsub}
 Now we come back to the verification problem presented at~\eqref{pbopt}. In this subsection, we suppose that the system in linear i.e. $b=0$ in~\eqref{context}. We will show at Subsection~\ref{affine} that the case $b\neq 0$ can be reduced to the linear case.
@@ -181,6 +176,7 @@ Assumption~\ref{assum2} ensures that $\lyap{A}\neq \emptyset$. Since for all $P\
 \[\norm{x}_P:=\sqrt{x^\intercal P x}\enspace. \]
 For any norm $\norm{\cdot}$, we can define the operator norm as $\norm{A}=\max_{x\neq 0} x^\intercal A x/ x^\intercal x$. In the case where the norm is constructed from a positive definite matrix, we can compute $\norm{A}_P$ as follows:
 \begin{equation}
+\label{normdef}
     \norm{A}_P^2=\max_{x\neq 0} \dfrac{x^\intercal A^\intercal P A x}{x^\intercal P x}=\inf\{\alpha>0\mid \alpha P-A^\intercal P A\succeq 0\}
 \end{equation}
 
@@ -201,17 +197,10 @@ Let us introduce the family $\lyat{A,Q}$ parameterized by positive numbers $t$ o
 \]
 Note that, since the set of positive definite matrix is a cone, we get the following equivalence :
 \begin{equation}
+\label{simpleequiv}
 P\in\lyat{A,Q}\iff tP\in\lyaun\enspace.
 \end{equation}
  
-
-\begin{comment}
-Finally, we need a third related set . For all $P\succ 0$, we define:
-
-\[
-\lyaa{P}=\{t>0\mid P\in\lyat{A,Q}\} 
-\]
-\end{comment}
 Actually we can bound $\cont(P)$ from below. Since $P$ is positive definite, we can use the inverse of the square root $P^{-1/2}$ of $P$ . We recall that this matrix is defined from the spectral decomposition of $P=U D U^\intercal$ where $D$ is a diagonal  matrix of ordered (strictly positive) eigenvalues $\lambda_k(P)$ and $U$ is an orthogonal matrix i.e. $U U^\intercal = U^\intercal U=\Idd$.   The matrix  $P^{-1/2}$ is thus defined by 
 $U D^{-1/2} U^\intercal$ where $D^{-1/2}$ is the diagonal matrix whose the diagonal elements are equal $\lambda_k(P)^{-1/2}$. This easy to see that $P^{-1/2} P^{-1/2}=P^{-1}$. 
 
@@ -228,22 +217,15 @@ $\sup_{z\neq 0} (z^\intercal M z)(z^\intercal z)^{-1}=\lmax{M}$. In fact, $\lmax
 $\sup_{y\neq 0} (y^\intercal P^{-1/2}Q P^{-1/2}y)(y^\intercal y)^{-1}=\lmax{P^{-1/2} Q P^{-1/2}}$. Finally $\lmax{P^{-1/2} Q P^{-1/2}}P-Q\succeq 0$ is a direct consequence of Lemma~\ref{lemma1}. 
 
 \end{proof}
-\begin{comment}
-\begin{prop}
-For all matrix $A$ of size $d\times d$ such that the spectral radius is strictly smaller than 1. For all symmetric matrix $Q$ of size $d\times d$: 
-\begin{enumerate}
-\item For all positive reals $t,t'$ such that $t\leq t'$, $\displaystyle{\lyat{A,Q}}\subseteq \displaystyle{\mathcal{L}_{A,Q}(t')}$;
-%\item For all $P\in\lyap{A}$, $P\in\displaystyle{\mathcal{L}_{\bar t}(A,Q)}$ with $\bar t=\lambda_d(P)\lambda(Q)^{-1}$;
-\item For all $P\succ 0$, $\lmin{P}^{-1}\lmax{Q}\in\conq(P)$;
-\item $\displaystyle{\bigcup_{t>0} \lyat{A,Q}}=\displaystyle{\lyap{A}}$.
-\end{enumerate}
-\end{prop}
-\end{comment}
 To compute our $\bigk$, we introduce a new notation and a new assumption. 
  \begin{assumption}
 \label{assumR}
 There exists $k\in\nn$ such that\[\min\left\{\sup_{x\in\xin} x^\intercal Q x , \sup_{x\in\xin} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x\right\}\] is strictly positive.
 \end{assumption}
+
+Note that Assumption~\ref{assumR} implies that $\sup_{x\in\nn} x^\intercal Q x$ cannot be null. Even if for some $k$, the value
+$\sup_{x\in\xin} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x$ is strictly positive, the minimal value would be equal to 0. 
+Assumption~\ref{assumR} can be written as there exists  some $k\in\nn$, for which $\sup_{x\in\xin} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x$ is strictly positive and $\sup_{x\in\xin} x^\intercal Q x$ is strictly positive.
 
 We will need the following notation:
 \[
@@ -256,23 +238,8 @@ and
 
 Note that Assumption~\ref{assum1} is not sufficient to ensure the validity of Assumption~\ref{assumR}. The matrix $Q$ is only supposed to be positive semi-definite and thus $\sup_{x\in\xin} x^\intercal Q x$ can be null. Moreover, $\lfrak$ can be negative since $q^\intercal A^k x$ can be negative on $\xin$. Strongest assumptions can be made : the global positivity of $x^\intercal (A^k)^\intercal  Q A^k x+q^\intercal A^k x$ which is equivalent to check whether a matrix is definite positive or a copositivity condition relying $Q,q$ and $\xin$. 
 
-%For a symmetric matrix $M$, the notation $\mu_{\xin}(M)$ stands for $\sup_{x\in\xin} x^\intercal M x$. Recall that, since $\xin$ is a polytope, from Lemma~\ref{lemma2}, $\mu_{\xin}(M)$ can be exactly computed from a finite number of evaluations of $x^\intercal M x$.
-
 Now, we define the key numbers that we need to solve the verification problem. We explain latter in the proof how they are constructed. Moreover, we will study later on numerical examples how much they are accurate.  
 
-\begin{comment}
-Let $t>0$ and $P\in\lyat{A,Q}$. Let us define the following formula :
-\begin{equation}
-\label{kappat}
-\kappa_t(P)=  \dfrac{\ln\left(\mu_{\xin}(Q)\mu_{\xin}(P)^{-1}t^{-1}\right)}{\ln\left(\norm{A}_P^2\right)}
-\end{equation}
-
-Let $P\in\lyap{A}$. We define the following formula :
-\begin{equation}
-\label{kappainf}
-\kappa_\infty(P)= \dfrac{\ln\left(\mu_{\xin}(Q)\mu_{\xin}(P)^{-1}\lambda_d(P)\lambda_1(Q)^{-1}\right)}{\ln\left(\norm{A}_P^2\right)}
-\end{equation}
-\end{comment}
 
 Let $t>0$ and $P\in\lyap{A}$ such that $P\in \lyat{A,Q}$. Let us define the following formula :
 \begin{equation}
@@ -283,52 +250,13 @@ where
 \[
 \vqQ(t,P):=\dfrac{\norm{q}_2 }{2\sqr{t\lmin{P}}}\quad \text{ and } \mu(P)=\sup_{x\in\xin} \sqr{x^\intercal P x}
 \]
-\begin{comment}
-\begin{equation}
-K_t=\left\lfloor \dfrac{\ln\left(\mu(Q)^2\left(t\mu(P)^{2}+\mu(P)\lambda_d(P)^{-1/2}\norm{q}_2\right)^{-1}\right)}{\ln\left(\norm{A}_P\right)}\right\rfloor+1
-\end{equation}
 
-\begin{equation}
-K_t=\left\lfloor \dfrac{\ln\left(\left[L+4\norm{q}_2^2\lmin{P}^{-1}t^{-2}\mu(P)^{-1}\right]^{1/2}-
-\left(2t^{-1}\mu(P)^{1/2}\lmin{P}^{-1/2}\norm{q}_2\right)\right)}{\ln\left(\norm{A}_P\right)}\right\rfloor+1
-\end{equation}
-
-Let $P\in\lyap{A}$. We define the following formula :
-\begin{equation}
-K_0=\left\lfloor \dfrac{\ln\left(\mu(Q)^2\left(\lmin{P}^{-1}\lmax{Q}\mu(P)^{2}+\mu(P)\lambda_d(P)^{-1/2}\norm{q}_2\right)^{-1}\right)}{\ln\left(\norm{A}_P\right)}\right\rfloor+1
-\end{equation}
-
-\begin{equation}
-K_\infty=\left\lfloor \dfrac{\ln\left(\mu(Q)^2\left(\lmax{P^{-1/2} Q P^{-1/2}}\mu(P)^{2}+\mu(P)\lambda_d(P)^{-1/2}\norm{q}_2\right)^{-1}\right)}{\ln\left(\norm{A}_P\right)}\right\rfloor+1
-\end{equation}
-
-\begin{comment}
-Let write hypothesis:
-\begin{equation}
-\label{hypo1}
-P\succ 0,\ \lambda_1(Q) P- Q\succeq 0,\ P-A^\intercal P A\succ 0
-\end{equation}
-
-\begin{equation}
-\kappa_1(P):=\ln\left(\alpha(Q,\xin) \alpha(P,\xin)^{-1}\lambda_1(Q)^{-1}\right) \left(\ln(\norm{A}_P^2)\right)^{-1}
-\end{equation}
-
-\begin{equation}
-\label{hypo2}
-P\succ 0,\ P-A^\intercal P A\succ 0
-\end{equation}
-
-\begin{equation}
-\kappa_2(P):=\log\left(\alpha(Q,\xin) \alpha(P,\xin)^{-1}\lambda_{d}(P)\lambda_1(Q)^{-1}\right) \left(\log(\norm{A}_P^2)\right)^{-1}
-\end{equation}
-\end{comment}
 
 \begin{prop}
 For all $t>0$, $P\in \lyap{A}$ such that $P\in \lyat{A,Q}$, $1\leq K(t,P)< +\infty$.  
 \end{prop}
 
 It suffices to show that both numerator and denominator are negative and finite. Since we use the natural logarithm, this is equivalent to show that the arguments of the natural logarithm of the numerators lie in the interval $(0,1]$ and $\norm{A}_P$ lies in the interval $(0,1)$ for all $P\in\lyap{A}$. 
-%Since $\lyat{A,Q}\subseteq \lyap{A}$, a proof of $\norm{A}_P\in (0,1)$ for $P\in\lyap{A}$ is only required.
 
 \begin{lemma}
 \label{lyapnorm}
@@ -338,7 +266,7 @@ For all $P\in\lyap{A}$, $0<\norm{A}_P<1$.
 \begin{proof}
 Let $P$ such that $P\succ 0$ and $P-A^\intercal P A\succ 0$.  First, the matrix $A$ is not null then its spectral radius is strictly positive. Then since $\norm{\cdot}_P$ is a matrix norm, $0<\rho(A) \leq \norm{A}_P$.
 
-Secondly, since $P-A^\intercal P A\succ 0$, $\norm{A}_P\leq 1$. Thus, to prove $\norm{A}_P<1$, it suffices to exhibit $\varepsilon>0$ such that $(1-\varepsilon) P-A^\intercal P A\succeq 0$ with $0<\varepsilon<1$. 
+Secondly, since $P-A^\intercal P A\succ 0$ and using Eq.~\eqref{normdef}, we have $\norm{A}_P\leq 1$. Still using Eq.~\eqref{normdef}, to prove $\norm{A}_P<1$, it suffices to exhibit $\varepsilon>0$ such that $(1-\varepsilon) P-A^\intercal P A\succeq 0$ with $0<\varepsilon<1$. 
 
 Let us write $\varepsilon=\lmin{P-A^\intercal P A} \lmax{P}^{-1}$. Let us prove that $0<\varepsilon<1$ and $(1-\varepsilon) P-A^\intercal P A\succeq 0$.  Since $P-A^\intercal P A\succ 0$, $\lmin{P-A^\intercal P A}>0$ and from $P\succ 0$ we conclude that $\varepsilon >0$. Since $P=P-A^ \intercal P A +A^\intercal P A$, we have, from Weyl's inequalities, $\lmin{P-A^\intercal P A}+\lmax{A^\intercal P A}\leq \lmax{P}$. Now, $A^\intercal P A\succeq 0$ from $P\succ 0$ and then $\lmax{A^\intercal P A}\geq 0$. We conclude that $\varepsilon\leq 1$. Now, if $\lmin{P-A^\intercal P A}=\lmax{P}$ i.e. $\varepsilon=1$, we have 
 $\lmax{A^\intercal P A}=0$ and then $x^\intercal A^\intercal P A x=0$ for all $x\in \rd$ and $A$ is the null matrix. 
@@ -349,14 +277,6 @@ P-A^\intercal P A$ which implies that $(1-\varepsilon) P -A^\intercal P A\succeq
 \end{proof}
 
 Now we prove that the argument of the natural logarithm at the numerator appearing in $K(t,P)$ lies in $(0,1]$. 
-%Since $P\in\lyap{A}$ implies that $P\in\displaystyle{\mathcal{L}_{\bar t}(A,Q)}$ with $\bar t=\lambda_d(P)\lambda(Q)^{-1}$, it suffices to prove that, for all $P\in\lyat{A,Q}$, $ \mu_{\xin}(Q)\mu_{\xin}(P)^{-1}t^{-1}\in (0,1]$.
-
-\begin{comment}
-\begin{lemma}
-For all $P$ satisfying Hypothesis~\eqref{hypo1}, $0\leq \alpha(Q,\xin) \alpha(P,\xin)^{-1}\lambda_1(Q)^{-1}\leq 1$. 
-For all $P$ satisfying Hypothesis~\eqref{hypo2}, $0\leq \alpha(Q,\xin) \alpha(P,\xin)^{-1}\lambda_{d}(P)\lambda_1(Q)^{-1}\leq 1$.    
-\end{lemma}
-\end{comment}
 
 \begin{lemma}
 For all $t>0$ and $P\in\lyap{A}$ such that $P\in\lyat{A,Q}$: \[
@@ -379,12 +299,6 @@ $(\lfrak+\vqQ(t,P)^2)^{1/2}\leq \lfrak^{1/2}+\vqQ(t,P)$. Hence :
 
 Since $t>0$ and $P\in\lyap{A}$ satisfy $P\in\lyat{A,Q}$, then $t P-Q\succeq 0$. It follows that 
 $t x^\intercal P x\geq x^\intercal Q x$ for all $x\in \xin$. Taking the supremum over $\xin$ leads to $(\sup_{x\in\xin} x^\intercal Q x)\mu(P)^{-2}t^{-1} \leq 1$. 
-\begin{comment}
-Note that  $\alpha(Q,\xin) \alpha(P,\xin)^{-1}\lambda_1(Q)^{-1}$ is nonnegative since $P$ and $Q$ are positive semi-definite and thus each factor of the latter product is nonnegative.
-
-Applying twice Lemma~\ref{lemma1}, we get $Q\preceq \lambda_1(Q) Id\preceq \lambda_1(Q)\lambda_d(P)^{-1} P$. Now taking $x\in\xin$,
-we conclude that $\alpha(Q,\xin) \alpha(P,\xin)^{-1}\lambda_{d}(P)\lambda_1(Q)^{-1}\leq 1$. The fact that the latter product is nonnegative follows readily from the fact that $P$ and $Q$ are positive semidefinite.
-\end{comment}
 \end{proof}
 
 \begin{prop}
@@ -403,6 +317,7 @@ The following assertions are true:
 \end{prop}
 
 \begin{proof}
+Let us prove the first assertion.
 Let $P\in\lyap{A}$. Let $t\in\cont(P)$. The integer part is increasing then we have to prove that the argument of the integer part is increasing in $t$. From Lemma~\ref{lemma2}, we know that $\ln{\norm{A}_P}<0$. Hence, since the natural logarithm is increasing it suffices to show that $\varphi:t:\mapsto \left(\sqr{\lfrak+\vqQ(t,P)^2}-\vqQ(t,P)\right)\left(\sqr{t}\mu(P)\right)^{-1}$ is decreasing. However :
 \[
 \begin{array}{lll}
@@ -415,13 +330,27 @@ Let $P\in\lyap{A}$. Let $t\in\cont(P)$. The integer part is increasing then we h
 \]
 We conclude that $t\mapsto \varphi(t)$ is decreasing as an inverse of an increasing function. 
 Finally, Eq.~\eqref{infsolved} follows from Prop.~\ref{propcont} and $t\mapsto K(t,P)$ is increasing for all $P\in\lyap{A}$.  
+
+Now, let $t>0$ and $P\in\lyat{A,Q}$. To prove $K(t,P)=K(1,tP)$ we have to show that $\vqQ(t,P)=\vqQ(1,tP)$, $\sqrt{t}\mu(P)=\mu(tP)$
+and $\norm{A}_{tP}=\norm{A}_P$. The fact $\vqQ(t,P)=\vqQ(1,tP)$ comes from the fact that $\lmin{tP}=t\lmin{P}$ since $t>0$. Second the supremum is homogeneous and then $\sqrt{t}\mu(P)=\mu(tP)$. Finally, $\norm{A}_{tP}=\norm{A}_P$ is a direct consequence of the definition given at Eq.~\eqref{normdef}. We conclude that :
+\[
+\begin{array}{llll}
+\displaystyle{\inf_{t>0} \inf_{P\in\lyat{A,Q}} K(t,P)}&=&\displaystyle{\inf_{t>0} \inf_{P\in\lyat{A,Q}} K(1,tP)}& \text{ from } K(t,P)=K(1,tP)\\
+&=&\displaystyle{\inf_{t>0} \inf_{tP\in\lyaun} K(1,tP)}&\text{ from Eq.~\eqref{simpleequiv}} \\ 
+&=&\displaystyle{\inf_{t>0} \inf_{P\in\lyaun} K(1,P)}&\\
+&=&\displaystyle{\inf_{P\in\lyaun} K(1,P)}&
+\end{array}
+\]
 \end{proof}
 
-We now present the main result of the paper. %Note that again, we use the fact that $P\in\lyap{A}$ implies that $P\in\displaystyle{\mathcal{L}_{\bar t}(A,Q)}$ with $\bar t=\lambda_d(P)\lambda(Q)^{-1}$ to present a result for $\lyat{A,Q}$.
+%\begin{prop}
+%Suppose that $q=0$ and let $P\in\lyaun$. Then: \[K(1,P)=1\iff\sup_{x\in \xin} x^\intercal P x=\sup_{x\in\xin} x^\intercal Q x\enspace.\] 
+%\end{prop}
 
+We now present the main result of the paper.
 \begin{theorem}
 \label{thfond}
-Let us define \[\bigk=\min\left\{\inf_{t>0}\inf_{P\in\lyat{A,Q}} K(t,P),\inf_{P\in\lyap{A}} K(\lmax{P^{-1/2}QP^{-1/2}},P)\right\}\enspace .\] Let $k\geq \bigk$. Then : 
+Let us define \[\bigk=\min\left\{\inf_{P\in\lyaun} K(1,P),\inf_{P\in\lyap{A}} K(\lmax{P^{-1/2}QP^{-1/2}},P)\right\}\enspace .\] Let $k\geq \bigk$. Then : 
 \[
 \max_{x\in \xin} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x\leq \lfrak
 \]
@@ -454,12 +383,12 @@ where $\vqQ$ is defined at Eq.~\eqref{intgfond}. Then, $ \left(\sqrt{t}\norm{A}_
 \]
 Using the natural logarithm and Lemma~\ref{lyapnorm}, the condition  $k\geq K(t,P)$ is sufficient for the latter inequality .  The latter proof is valid for all couple $t>0$ and $P\in\lyap{A}$ such that $P\in\lyat{A,Q}$. So it remains true for   $\bt>0$ and $\bP\in\lyap{A}$ such that $P\in\lyat{A,Q}$ and $\bigk=K(\bt,\bP)$. 
 \end{proof}
-We recall that $\lfrak$ is smaller than $\max_{x\in\xin} x^\intercal Q x+q^\intercal x$. Hence, the optimal value of Problem~\ref{pbopt} is greater than $\lfrak$ since $\xin\subseteq \rea$. We conclude that, following Th.~\ref{thfond}, the optimal value of Problem~\ref{pbopt} is attained for powers of $A$ between 0 and $\bigk$.
+We recall that $\lfrak$ is smaller than $\max_{x\in\xin} x^\intercal {A^{\ks}}^\intercal Q A^{\ks} x+q^\intercal A^{\ks} x$. Hence, the optimal value of Problem~\ref{pbopt} is greater than $\lfrak$ since $A^{\ks} (\xin)\subseteq \rea$. We conclude that, following Th.~\ref{thfond}, the optimal value of Problem~\ref{pbopt} is attained for powers of $A$ between $\ks$  and $\max\{\bigk,\ks\}$.
 
 \begin{corollary}
 The following statement is true :
  \[
-\max_{y\in\rea} y^\intercal Q y+q^\intercal y=\max_{0\leq k\leq \bigk-1} \max_{x\in \mathcal{E}(\xin)} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x
+\max_{y\in\rea} y^\intercal Q y+q^\intercal y=\max_{\ks\leq k\leq \max\{\bigk-1,\ks\}} \max_{x\in \mathcal{E}(\xin)} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x
 \]
 \end{corollary}
 
@@ -469,53 +398,59 @@ Let $k\in\nn$. We define :
 \nu_k:x\mapsto x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x 
 \]
 Using extreme points instead of the whole set $\xin$ is a direct consequence of the convexity of the functions $\nu_k$ (Assumption~\ref{assum1}) and Lemma~\ref{lemma2}.
+
+Now we write $k^*=\max\{\bigk-1,\ks\}$. We have :
  \[
- \begin{array}{lll}
-\displaystyle{\max_{y\in\rea} y^\intercal Q y+q^\intercal y}
-&=&\displaystyle{\max_{x\in \mathcal{E}(\xin)}\max\left\{\max_{0\leq k\leq \bigk-1} \nu_k(x),\max_{k\geq \bigk} \nu_k(x)\right\}}\\
-&=&\displaystyle{\max\left\{\max_{0\leq k\leq \bigk-1}\max_{x\in \mathcal{E}(\xin)} \nu_k(x),\lfrak\right\}}
-\end{array}
+\max_{y\in\rea} y^\intercal Q y+q^\intercal y
+=\max_{x\in \mathcal{E}(\xin)}\max\left\{\max_{0\leq k\leq \ks} \nu_k(x), \max_{\ks \leq k\leq k^*} \nu_k(x),\max_{k>k^*} \nu_k(x)\right\}
 \]
-The conclusion follows from the fact that  $\lfrak\leq \max_{x\in \mathcal{E}(\xin)} \nu_0(x)$.
+
+%&=&\displaystyle{\max\left\{\max_{0\leq k\leq \bigk-1}\max_{x\in \mathcal{E}(\xin)} \nu_k(x),\lfrak\right\}}
+%\end{array}
+%\]
+Now, for all $k< \ks$, for all $x\in\xin$, $\nu_k(x)\leq 0$ and for all $x\in\xin$, $\nu_{\ks}(x)\leq \lfrak$. Moreover, from Th~\ref{thfond}, 
+for all $k>k^*$, $\nu_k(x)\leq \lfrak$. The conclusion follows from $\displaystyle{\max_{x\in\xin} \max_{\ks\leq k\leq k^*} \nu_k(x)\geq \max_{x\in\xin} \nu_{\ks}(x)\geq \lfrak}$. 
+%The conclusion follows from the fact that  $\lfrak\leq \max_{x\in \mathcal{E}(\xin)} \nu_{\ks}(x)$.
 \end{proof}
 The integer $\bigk$ is the best integer than we can get in theory. In practice, we cannot compute this integer since we cannot solve the minimization problems :
 \[
-\inf_{t>0}\inf_{P\in\lyat{A,Q}} K(t,P)\text{ and }\inf_{P\in\lyap{A}}K(\lmax{P^{-1/2} Q P^{-1/2}},P)
+\inf_{P\in\lyaun} K(1,P)\text{ and }\inf_{P\in\lyap{A}}K(\lmax{P^{-1/2} Q P^{-1/2}},P)
 \]
-In practice, for the moment, we only compute two integers : $K( \lmax{Q},P)$ where $P$ is an optimal solution of a perturbation of the minimization problem : 
+In practice, for the moment, we only compute two integers : $K( 1,P)$ where $P$ is an optimal solution of a perturbation of the minimization problem : 
 \begin{equation}
 \label{minlmaxQ}
-\inf\{\lmax{P}\mid P\in \lyam{A,Q}\}
+\inf\{\lmax{P}\mid P\in \lyaun\}
 \end{equation}
 and $K(\lmax{P^{-1/2} Q P^{-1/2}},P)$ where $P$ is an optimal solution of a perturbation of the minimization problem :
 \begin{equation}
 \label{minlyap}
 \inf\{\lmax{P}\mid P\in\lyap{A}\}\enspace .
 \end{equation}
-We take after the minimum of the  two integers. We come back latter on the perturbation of the two minimization problems at Section~\ref{computations}.
+Then we take the minimum of the  two integers. We come back latter on the perturbation of the two minimization problems at Section~\ref{computations}.
 \subsection{From linear systems to affine ones}
 \label{affine}
-Let us consider the same problem where we replace the linear dynamics by an affine one:
-
+We come back to Problem~\eqref{context}: the case where the system is affine ($b\neq 0$). We recall that we have :
+%Let us consider the same problem where we replace the linear dynamics by an affine one:
 \[
-x_{k+1}=A x_k+b,\ x_0\in \xin
+x_0\in \xin,\ \forall\, k\in\nn,\ x_{k+1}=A x_k+b,\
 \]
-
-where $A$ is still a $d\times d$ matrix and $b$ a vector of $\rd$. We denote by $\rea$ the set of all possible $x_k$ being an element of the trajectory of such $x_0\in\xin$. We still consider the optimization problem:
+where $A$ is a $d\times d$ matrix and $b$ a vector of $\rd$. We recall that $\rea$ is given by Formula~\eqref{reach} and we consider the optimization problem:
 \[
 \sup_{x\in\rea} x^\intercal Q x+q^\intercal x
 \]
-
-We can reformulate an affine system with powers of the matrix $A$ and initial vectors: 
-
+Assumption~\ref{assum2} still holds and it implies that $Id-A$ is invertible. It is well-known that the sequence defined by :
 \[
-x_{k}=A^k x_0+\sum_{i=0}^{k-1} A^i b,\ x_0\in \xin
+\forall\, k\in\nn,\ y_k=x_k-B,\text{ where } B=(Id-A)^{-1} b
 \]
-This latter leads to the optimization problem:
+satisfies:
 \[
-\sup_{k\in\nn} \sup_{x_0\in\xin} \left(A^k x_0+\sum_{i=0}^{k-1} A^i b\right)^\intercal Q  \left(A^k x_0+\sum_{i=0}^{k-1} A^i b\right)+q^\intercal  \left(A^k x_0+\sum_{i=0} A^i b\right)
+\forall\, k\in\nn,\ y_{k+1}=A y_k. 
 \]
-From Assumption~\ref{assum2}, $Id-A$ is invertible. Let for all $k\in\nn$, $y_k=x_k-(Id-A)^{-1} b$. It is well-known that the sequence $(y_k)_{k\in\nn}$ satisfies $y_{k+1}=A y_k$ for all $k\in\nn$. Then we get the new optimization problem : 
+Finally, we have :
+\[
+\forall\, k\in\nn,\ x_k=A^k y_0+B
+\]
+This latter expression leads to a new formulation of Problem~\eqref{pbopt}: 
 \[
 \sup_{k\in\nn} \sup_{y_0\in\xin-B} \left(A^k y_0+B\right)^\intercal Q  \left(A^k y_0+B\right)+q^\intercal  \left(A^k y_0+B\right)
 \]
@@ -523,23 +458,78 @@ or
 \[
 \sup_{k\in\nn} \sup_{y_0\in\xin-B} y_0^\intercal (A^k)^\intercal Q  A^k y_0+(2B+q)^\intercal A^k +B^\intercal Q B+q^\intercal B
 \]
+We conclude that we can the results developed in Subsection~\ref{mainsub} where the matrix $Q$ is unchanged and the vector $q$ to use is now $2B+q$. The polytope of initial conditions also changes since we have to consider now $\xin-B$. We have to adapt Assumption~\ref{assumR} with  and the new  $2B+q'$ and $\xin-B$.
 
-Finally, we apply the results developed in Subsection~\ref{mainsub} with $Q=Q'$ and $q=2B+q'$. We have to compute $K_t$ and $K_\infty$ using 
-\[
-\mathfrak{L}'=\min\{\sup_{y\in \xin-B} y^\intercal Q' y,\sup_{y\in \xin-B} y^\intercal Q' y+(2B+q')^\intercal y\}
-\]
-Assumption~\ref{assum1} becomes $\mathfrak{L}'>0$.
-\section{Computation of $\kappa_1$ and $\kappa_2$}
+\section{Computations of $K(1,P)$ and $K(\lmax{P^{-1/2}QP^{-1/2}},P)$}
 \label{computations}
-First for each $\kappa$ we have to solve a semi-definite program to compute a matrix $P$ which satisfies 
-a Lyapunov equation.
-To compute $\alpha(Q,\xin)$ and $\alpha(P,\xin)$, we use Lemma~\ref{lemma2}, after computing once the vertices of $\xin$. 
-To compute the spectral radius of a matrix, there exists a multitude of numerical methods to compute it (Householder, power methods...). Finally, the computation of the norm $\norm{A}_P^2$ can be done using a semi-definite program.
+The computations have been performed using Matlab. We use classical internal routines for powers of matrices  (needed for $A^{\ks}$) and  the vector Euclidean norm (needed for $\norm{q}_2$). We discuss here the computations that rely on semi-definite programming. The solver used in the development is Mosek interfaced with Yalmip. 
 
+In the computations of the two integers, we need first a matrix that satisfies the discrete Lyapunov equation. For the computation of $K(1,P)$, we need $P \in \lyaun$. We propose to compute this matrix $P$ as an optimal solution  of the semi-definite problem:
+\begin{equation}
+\label{eq:kunp}
+\begin{array}{llc}
+\Min & &\lmax{P}\\
+ & \st &\left\{\begin{array}{l} 
+         P-Q\succeq 0\\
+         P-A^\intercal P A-\varepsilon Id\succeq 0\\
+         P\succeq  0
+        \end{array}\right.
+\end{array}
+\end{equation}
+where $\varepsilon$ is set to $0.001$.
+
+For the computation of $K(\lmax{P^{-1/2}QP^{-1/2}},P)$, we need an element of $\lyap{A}$. We then solve the semi-definite problem:
+\begin{equation}
+\label{eq:klmaxp}
+\begin{array}{llc}
+\Min & &\lmax{P}\\
+ & \st &\left\{\begin{array}{l} 
+         P-A^\intercal P A-\varepsilon Id\succeq 0\\
+         P\succeq  0
+        \end{array}\right.
+\end{array}
+\end{equation}
+where $\varepsilon$ is still set to $0.001$.
+We will write $P_1$ for an optimal solution of Pb.~\eqref{eq:kunp} and $\pmax$ for an optimal solution of Pb.~\eqref{eq:klmaxp}. 
+
+Once $\pmax$ computed, we have to compute $\lmax{\pmax^{-1/2}Q \pmax^{-1/2}}$ which can be done by semi-definite programming:
+\[
+\lmax{\pmax^{-1/2}Q \pmax^{-1/2}}=\inf\{\alpha>0\mid \alpha \pmax-Q\succeq 0\}
+\] 
+
+Now, for both $P_1$ and $\pmax$ we have to compute $\lmin{\cdot}$, $\mu(\cdot)$ and $\norm{A}_{\cdot}$. Folowing Lemma~\ref{lemma1}, since $P_1$ and $\pmax$ are symmetric, the minimal eigenvalue
+of those matrices can be computed from semi-definite programming. Indeed for all symmetric matrix $M$, we have : 
+\[
+\lmin{M}=\inf\{\alpha>0\mid M-\alpha Id\geq 0\}
+\] 
+To compute $\mu(P_1)$ and $\mu(\pmax)$ we suppose that number of vertices of $\xin$ is small and we evaluate directly $\mu(\cdot)$ by enumeration of the image of vertices of $\xin$ and choose the maximal value in the finite list. In a future work, we consider scalable techniques to compute the exact value of $\mu(\cdot)$. The square root (as it is increasing) involved $\mu(\cdot)$ can be performed at the end of the maximization process: we compute the values $x^\intercal P_1 x$ (resp. $x^\intercal \pmax x$) for all vertices; take the maximum of all of them and finally take the square root of the maximal value. 
+
+Finally, following Eq.~\eqref{normdef}, the value $\norm{A}_\cdot$ is compute from semi-definite programming; taking the square root of the optimal value.
+
+To complete the computations, we have to deal with $\lfrak$. We suppose that the integer $\ks$ is given and then to compute $\lfrak$ we employ the same technique used for $\mu(\cdot)$. It suffices to browse the vertices of $\xin$ once since we evaluate, for each vertice, $\min\{x^\intercal Q x, x^\intercal {A^{\ks}}^\intercal Q {A^{\ks}}x+q^\intercal A^{\ks} x\}$ and take the maximal value. 
 \section{Experiments}
+We decompose the experiments into two sub-classes: the linear and affine systems. Those sub-classes are separeted in three parts : the  case where the objective function is a quadratic homogeneous function; the linear case and the non-homogeneous quadratic objective function. For each cut, we provide a numerical example.  
+\subsection{Linear systems}
 
+\subsubsection{Homogeneous objective function}
+
+\subsubsection{Non-Homogeneous objective function}
+
+\subsubsection{Random matrices}
+
+\subsection{Affine systems}
+
+\subsubsection{Homogeneous objective function}
+
+\subsubsection{Non-Homogeneous objective function}
+
+\subsubsection{Random matrices}
 \section{Conclusion and Future Works} 
+In this paper, we introduce a new class of optimization problems. This class solves verification problem coming from computer science. This class can be described as follows : the objective function is convex and quadratic and the decision variable is constrained to belong to the reachable values set of a discrete-time affine system which is not a convex set. The main issue is the infinite horizon problem. To maximize the function we can wait for an arbitrary long time. Thus the paper proposes to compute, in the case of stable affine system, a finite horizon after which the search of an optimal value is useless. The problem becomes a finite horizon problem which can be solved in a finite time. 
 
+Nevertheless some computational questions are left open. In this paper, we describe the technique on small examples and for which the number of vertices of the initial polyhedron is small. A more scalable approach can be done in a future work using known algorithms to solve the maximization of convex quadratic functions over linear inequalities. 
+
+The most  difficult part resides in the minimization of the horizons with respect to Lyapunov functions. The non-convexity of the function makes difficult the minimization procedure.         
 \bibliographystyle{alpha}
 \bibliography{paperbib} 
 \end{document}
