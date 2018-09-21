@@ -7,7 +7,7 @@
 \usepackage{amsfonts}
 \usepackage{latexsym}
 \usepackage{version}
-
+\usepackage{url}
 
 \allowdisplaybreaks
  \newcommand\ForAuthors[1]%          %  temporary remark for the
@@ -24,13 +24,30 @@
 \input{raccourcis}
 
 \title{Optimal analysis of Discrete-time Time-Invariant Affine Systems}
-\author{Assalé Adjé}
+\author{Assalé Adjé\\
+Université of Perpignan Via Domitia\\
+LAMPS\\
+France\\
+\url{assale.adje@univ-perp.fr}
+}
 \date{}%
 
 \begin{document}
 \maketitle
+\begin{abstract}
+    
+\end{abstract}
+
 \section{Introduction}
-Goal of verification : some catastrophic events\ForAuthors{citer quelques evenements catastrophiques} caused by bugs in programs leaded to a new branch in computer science called formal verification of programs\ForAuthors{trouver une citation sur les premiers travaux en verification}. Formal verification provides a deeper analysis compared to traditional test techniques. Indeed, tests cannot cover all possible situation. The principle of formal verification consists in an exhaustive approach to prove properties on programs. Various techniques exist but none of them cannot be complete. 
+Some catastrophic events~\cite{johnson2005natural,mcquaid2012software} caused by bugs in programs explain the importance of the formal verification of programs~\cite{cousot2010gentle}.
+Furthermore, since the success of Astrée~\cite{delmas2007astree,souyris2007experimental,bouissou2009space}, industrials are  more and more concerned with formal verification.  
+%Goal of verification : some catastrophic events caused by bugs in programs leaded to a new branch in computer science called formal verification of programs\ForAuthors{trouver une citation sur les premiers travaux en verification}. 
+
+Formal verification provides a deeper analysis compared to traditional test techniques. Indeed, tests cannot cover all possible situations. The principle of formal verification consists in an exhaustive approach to prove properties on programs. Various techniques exist but none of them cannot be complete. This means that they cannot give a validation of the property for every program. 
+In this paper, we are interested in static analysis approach. It consists in verifying the system without using simulations and prove the property from the dynamics initial conditions. 
+
+Some works propose numerical optimization techniques to solve verification problem.
+
 
 Numerical programs in an ideal world can be viewed as a discrete-time dynamical systems. Some numerical
 programs comes from discretization or linearization techniques. Thus linear systems forms a huge class of interesting problems. 
@@ -42,7 +59,28 @@ Indeed, the static analysis of such systems based on abstract interpretation can
 valid properties. However, because abstractions and the presence of false alarms, the challenge which consists in invalidating properties remains extremely difficult for analyzers. The problem addressed here can be reduced to maximize a function over the reachable values set of a dynamical system.
 The method developed here consists in replacing an infinite numbers of maximization problems by a finite number of them.  We propose to compute an integer after which we know that the optimal value cannot be reached. 
 
-\section{Notations}
+Our very first concern is the resolution of the verification problem for the class of discrete-time affine dynamical systems. This problem is widely studied in computer science community~\cite{mine} or in control theory~\cite{safety}. Optimization theory 
+~\cite{optim} are more and more used to solve verification problems. The proposed approach follows this line of research : our verification problem is reduced to solve an optimization problem with dynamical system constraints. Actually this particular subclass of optimization problems is called the robust-to-dynamics optimization~\cite{ahmadi}. 
+
+In our presentation, we consider the maximization of a convex quadratic function over the reachable values set of an asymptotic stable affine system. For verification purposes, we assume that the initial condition set is a polytope. The difficulty in solving the optimization problem is to handle infinite sequences in the constraints set. To solve this optimization problem, we truncate the infinite sequences belonging to reachable values set at a rank which is uniform with respect to the initial conditions i.e. valid for all possible initial conditions.   
+This uniform rank is constructed from basic tools of matrix theory such as matrix norms, extremal eigenvalues or generalized Rayleigh quotients. We also need a solution of the discrete Lyapunov equation that permits to define a useful matrix norm. Finally, we introduce a new non-convex semi-definite program to compute the optimal uniform rank. The exact resolution of this semi-definite problem is, for the moment, left open and we just provide an over-approximation of its optimal value. By doing so, it does not degrade the exact resolution of the verification problem.  
+
+In practice, we use semi-definite programming to solve the discrete Lyapunov matrix equation and to compute extremal eigenvalues that we need. We end the talk by some experimental results that measure the accuracy of our approach.
+
+\paragraph{Motivations}
+Motivations come from computer science and static analysis. More precisely from abstract interpretation 
+\paragraph{Related works}
+Verification linear /affine systems
+Optimization tools for verification
+Formal methods tools 
+Control problems with reachability
+\paragraph{Contributions}
+Compute an integer that permits to solve a optimization problem with reachability constraints.
+This problem is then solved exactly
+From the computer science point of view, the motivation, we can prove or disprove a property
+\paragraph{Organization of the paper}
+Problem statement, the main results, the computation of the integer, the experimentation and finally a conclusion.
+\paragraph{Notations}
 In this paper, we denote by $\Idd$ the identity matrix of size $d\times d$. We denote, for a matrix $M$, by $M^\intercal$ the transpose of $M$. The set of the (square) symmetric matrices  (the matrices $M$ such that $M=M^\intercal$) of size $d$ is denoted by $\sym$.  
 
 We recall that a matrix $M$ of size $d\times d$ is {\it positive semidefinite} if and only if $M$ is symmetric for all $x\in\rd$,
@@ -105,7 +143,7 @@ This section contains the main contribution of the paper i.e. the computation of
 
 For a given square matrix $M$, the matrix $P$ satisfies the discrete Lyapunov equation if and only $P\succ 0$ and $P-M^\intercal P M\succeq 0$. If $\rho(M)<1$, then the discrete Lyapunov equation has at least one solution. Moreover, in this case, we can find $P\succ 0$ such that $P-M^\intercal P M\succ 0$.  
 
-For the matrix $A$ of the affine system considered at Eq.~\eqref{context}, we introduce the set $\lyap{A}$ of the  solutions  of the discrete Lyapunov equation i.e.:
+For the matrix $A$ of the affine system considered at Eq.~\eqref{context}, we introduce the set $\lyap{A}$ of the  solutions  of the discrete Lyapunov equation :
 \[
 \lyap{A}=\{P\in\sym \mid P\succ 0,\ P-A^\intercal P A\succ 0\}\enspace .
 \]
@@ -129,7 +167,7 @@ Inequalities~\eqref{eigineg} can be formulated in term of positive semi-definite
 We recall Weyl's inequalities~\cite{horn1990matrix} that provide inequalities for the eigenvalues of the sum of two symmetric matrices and the sum of the eigenvalues of each matrix.  
 \begin{lemma}[Weyl's inequalities]
 \label{le}
-Let $M$ and $N$ be symmetric matrices. We have, for all $\ell\in\{1,\ldots,d\}$:
+Let $M$ and $N$ be symmetric matrices. We have, for all $\ell\in\{1,\ldots,d\}$ :
 \[
 \lambda_\ell(M)+\lmin{N}\leq \lambda_\ell(M+N)\leq \lambda_\ell(M)+\lmax{N}
 \]
@@ -227,7 +265,7 @@ Note that Assumption~\ref{assumR} implies that $\sup_{x\in\nn} x^\intercal Q x$ 
 $\sup_{x\in\xin} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x$ is strictly positive, the minimal value would be equal to 0. 
 Assumption~\ref{assumR} can be written as there exists  some $k\in\nn$, for which $\sup_{x\in\xin} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x$ is strictly positive and $\sup_{x\in\xin} x^\intercal Q x$ is strictly positive.
 
-We will need the following notation:
+We will need the following notation :
 \[
 \ks:=\inf\left\{k\in\nn\mid \min\left\{\sup_{x\in\xin} x^\intercal Q x , \sup_{x\in\xin} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x\right\}>0\right\}
 \]
@@ -365,7 +403,7 @@ x^\intercal (A^k)^\intercal Q A^k x
 \]
 The first inequality comes from the definition of $\lyat{A,Q}$, the second from the matrix norm definition and the last from the definition of $\mu(P)$ (see Eq.~\eqref{intgfond}).
 
-We also have, for all $x\in\xin$:
+We also have, for all $x\in\xin$ :
 \[
 q^\intercal A^k x
 \leq \norm{q}_2 \norm{A^k x}_2\leq \dfrac{\norm{q}_2 \norm{A^k x}_P}{\sqr{\lmin{P}}} 
@@ -460,7 +498,7 @@ or
 \]
 We conclude that we can the results developed in Subsection~\ref{mainsub} where the matrix $Q$ is unchanged and the vector $q$ to use is now $2B+q$. The polytope of initial conditions also changes since we have to consider now $\xin-B$. We have to adapt Assumption~\ref{assumR} with  and the new  $2B+q'$ and $\xin-B$.
 
-\section{Computations of $K(1,P)$ and $K(\lmax{P^{-1/2}QP^{-1/2}},P)$}
+\section{Practical computations of $K(t,P)$}
 \label{computations}
 The computations have been performed using Matlab. We use classical internal routines for powers of matrices  (needed for $A^{\ks}$) and  the vector Euclidean norm (needed for $\norm{q}_2$). We discuss here the computations that rely on semi-definite programming. The solver used in the development is Mosek interfaced with Yalmip. 
 
