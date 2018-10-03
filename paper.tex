@@ -502,7 +502,10 @@ and $K(\lmax{P^{-1/2} Q P^{-1/2}},P)$ where $P$ is an optimal solution of a pert
 Then we take the minimum of the  two integers. We come back latter on the perturbation of the two minimization problems at Section~\ref{computations}.
 \subsection{From linear systems to affine ones}
 \label{affine}
-We come back to Problem~\eqref{context}: the case where the system is affine ($b\neq 0$). We recall that we have :
+We come back to Problem~\eqref{context}: the case where the system is affine ($b\neq 0$).
+A possible natural reformulation of affine systems into linear one is to use lift-and-project. However, lift-and-project would add 1 as eigenvector of the matrix defining the new linear system. Assumption~\ref{assum2} would be violated.  Consequently, we adopt another basic approach which consists in using an auxiliary linear discrete-time system.   
+
+ We recall that we have :
 %Let us consider the same problem where we replace the linear dynamics by an affine one:
 \[
 x_0\in \xin,\ \forall\, k\in\nn,\ x_{k+1}=A x_k+b,\
@@ -586,18 +589,20 @@ We decompose the experiments into two sub-classes: the linear and affine systems
 \subsection{Linear systems}
 
 \subsubsection{Homogeneous objective function}
-
+We consider the discretisation of an harmonic oscillator by Euler scheme. We want to prove that $x_{1,k}^2$ and $x_{1,k}^2$ are less than 1.
+ 
 \subsubsection{Non-Homogeneous objective function}
-
-\subsubsection{Random matrices}
+We consider a property set of the form $C=\{x\in\rd\mid c^\intercal x\leq \beta,\ c^\intercal x\leq \alpha \}$ with $\alpha\leq \beta$. The latter $C$ can be rewritten as $\{x\in\rd\mid (c^\intercal x)^2-(\beta+\alpha) c^\intercal x\leq -\alpha\beta\}$. Assumption~\eqref{assumR} is true if and only $\alpha\beta< 0$ and thus only valid if $\alpha<0$. 
 
 \subsection{Affine systems}
 
 \subsubsection{Homogeneous objective function}
 
+Rotation plus translation 
 \subsubsection{Non-Homogeneous objective function}
 
-\subsubsection{Random matrices}
+Box constraints 
+
 \section{Conclusion and Future Works}
 \label{conclusion}
 In this paper, we introduce a new class of optimization problems. This class solves verification problem coming from computer science. This class can be described as follows : the objective function is convex and quadratic and the decision variable is constrained to belong to the reachable values set of a discrete-time affine system which is not a convex set. The main issue is the infinite horizon problem. To maximize the function we can wait for an arbitrary long time. Thus the paper proposes to compute, in the case of stable affine system, a finite horizon after which the search of an optimal value is useless. The problem becomes a finite horizon problem which can be solved in a finite time. 
