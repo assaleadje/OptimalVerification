@@ -300,6 +300,11 @@ Note that Assumption~\ref{assumR} implies that $\sup_{x\in\nn} x^\intercal Q x$ 
 $\sup_{x\in\xin} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x$ is strictly positive, the minimal value would be equal to 0. 
 Assumption~\ref{assumR} can be written as there exists  some $k\in\nn$, for which $\sup_{x\in\xin} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x$ is strictly positive and $\sup_{x\in\xin} x^\intercal Q x$ is strictly positive.
 
+\ForAuthors{Compare with zero in the interior of xin... if 0 belongs to the interior of xin then we can choose xeps=epsilon sign(q) in xin and then q.xeps >0 and xeps Q xeps nonnegative...}
+
+\ForAuthors{Q cannot be null indeed for all k the value would be negative or null}
+
+\ForAuthors{From double linear inequalities i.e. alpha<=cx<= beta, we can cast into a quadratic inequality. However if the scalar part is not negative alpha*beta, we cannot use our method. }  
 We will need the following notation :
 \[
 \ks:=\inf\left\{k\in\nn\mid \min\left\{\sup_{x\in\xin} x^\intercal Q x , \sup_{x\in\xin} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x\right\}>0\right\}
@@ -552,7 +557,7 @@ In the computations of the two integers, we need first a matrix that satisfies t
         \end{array}\right.
 \end{array}
 \end{equation}
-where $\varepsilon$ is set to $0.001$.
+where $\varepsilon$ is set to $0.01$.
 
 For the computation of $K(\lmax{P^{-1/2}QP^{-1/2}},P)$, we need an element of $\lyap{A}$. We then solve the semi-definite problem:
 \begin{equation}
@@ -565,7 +570,7 @@ For the computation of $K(\lmax{P^{-1/2}QP^{-1/2}},P)$, we need an element of $\
         \end{array}\right.
 \end{array}
 \end{equation}
-where $\varepsilon$ is still set to $0.001$.
+where $\varepsilon$ is still set to $0.01$.
 We will write $P_1$ for an optimal solution of Pb.~\eqref{eq:kunp} and $\pmax$ for an optimal solution of Pb.~\eqref{eq:klmaxp}. 
 
 Once $\pmax$ computed, we have to compute $\lmax{\pmax^{-1/2}Q \pmax^{-1/2}}$ which can be done by semi-definite programming:
@@ -589,16 +594,64 @@ We decompose the experiments into two sub-classes: the linear and affine systems
 \subsection{Linear systems}
 
 \subsubsection{Homogeneous objective function}
-We consider the discretisation of an harmonic oscillator by Euler scheme. We want to prove that $x_{1,k}^2$ and $x_{1,k}^2$ are less than 1.
+\label{exp-linear}
+We consider the discretisation of an harmonic oscillator $\ddot{x}+\dot{x}+x=0$ by an explicit Euler scheme. The discretization step $h$ is set to 0.01. Introducing the position variable, $x$ and the speed variable $v$. We assume that the initial conditions can be taken into the set $[-1,1]^2$. The Euler scheme becomes a linear discrete-time system in dimension two defined as follows: 
+\[
+\begin{pmatrix}
+x_{k+1}\\
+v_{k+1}
+\end{pmatrix}
+=\begin{pmatrix}
+1 & h\\
+-h & 1-h
+\end{pmatrix}
+\begin{pmatrix}
+x_{k}\\
+v_{k}
+\end{pmatrix},\ (x_0,v_0)\in [-1,1]^2
+\]
+We want to prove that for all $k\in\nn$, $x_{k}^2$ and $v_{k}^2$ are less than 1.
  
 \subsubsection{Non-Homogeneous objective function}
-We consider a property set of the form $C=\{x\in\rd\mid c^\intercal x\leq \beta,\ c^\intercal x\leq \alpha \}$ with $\alpha\leq \beta$. The latter $C$ can be rewritten as $\{x\in\rd\mid (c^\intercal x)^2-(\beta+\alpha) c^\intercal x\leq -\alpha\beta\}$. Assumption~\eqref{assumR} is true if and only $\alpha\beta< 0$ and thus only valid if $\alpha<0$. 
+We consider a property set of the form $C=\{x\in\rd\mid c^\intercal x\leq \beta,\ c^\intercal x\leq \alpha \}$ with $\alpha\leq \beta$. The latter $C$ can be rewritten as $\{x\in\rd\mid (c^\intercal x)^2-(\beta+\alpha) c^\intercal x\leq -\alpha\beta\}$. Assumption~\eqref{assumR} is true if and only $\alpha\beta< 0$ and thus only valid if $\alpha<0$. A MIEUX EXPLIQUER
 
+Let us consider the same linear system as in Subsubsection~\ref{exp-linear}. We are interested in proving that for all $k\in\nn$, $-1\leq x_k-0.5v_k\leq 2$. This is the same as proving 
+$(x_k-0.5 v_k)^2-x_k+0.5 v_k\leq 1$.
 \subsection{Affine systems}
 
 \subsubsection{Homogeneous objective function}
 
 Rotation plus translation 
+
+We propose to use the same linear system proposed by Ahmadi et al governed by a rotation transformation except we add a translation in the geometric transformation. For record, their system is governed by the rotation matrix:
+
+\[
+ \dfrac{4}{5}\begin{pmatrix}
+ \cos(\theta)& sin(\theta)\\
+-sin(\theta) & \cos(\theta)
+\end{pmatrix},\text{ where }\theta=\dfrac{\pi}{6}
+\]
+We add a translation tranformation characterized by the vector $(1,-1)^\intercal$. 
+We get the system:
+\[
+\begin{pmatrix}
+x_{k+1}\\
+y_{k+1}
+\end{pmatrix}
+= \dfrac{4}{5}\begin{pmatrix}
+ \cos(\theta)& sin(\theta)\\
+-sin(\theta) & \cos(\theta)
+\end{pmatrix}
+\begin{pmatrix}
+x_{k}\\
+y_{k}
+\end{pmatrix}+\begin{pmatrix}
+1\\
+-1
+\end{pmatrix},\ (x_0,y_0)\in [-1,2]^2
+\]
+
+We want to prove that for all $k\in\nn$, $x_k^2\leq 9$ and $y_k^2\leq 9$.
 \subsubsection{Non-Homogeneous objective function}
 
 Box constraints 
