@@ -380,6 +380,7 @@ $t x^\intercal P x\geq x^\intercal Q x$ for all $x\in \xin$. Taking the supremum
 \end{proof}
 
 \begin{prop}
+\label{comp-prop}
 The following assertions are true:
 \begin{itemize}
 \item For all $P\in\lyap{A}$, the function defined on $\cont(P)$, $t\mapsto K(t,P)$ is increasing. Then : 
@@ -461,7 +462,7 @@ where $\vqQ$ is defined at Eq.~\eqref{intgfond}. Then, $ \left(\sqrt{t}\norm{A}_
 \]
 Using the natural logarithm and Lemma~\ref{lyapnorm}, the condition  $k\geq K(t,P)$ is sufficient for the latter inequality .  The latter proof is valid for all couple $t>0$ and $P\in\lyap{A}$ such that $P\in\lyat{A,Q}$. So it remains true for   $\bt>0$ and $\bP\in\lyap{A}$ such that $P\in\lyat{A,Q}$ and $\bigk=K(\bt,\bP)$. 
 \end{proof}
-We recall that $\lfrak$ is smaller than $\max_{x\in\xin} x^\intercal {A^{\ks}}^\intercal Q A^{\ks} x+q^\intercal A^{\ks} x$. Hence, the optimal value of Problem~\ref{pbopt} is greater than $\lfrak$ since $A^{\ks} (\xin)\subseteq \rea$. We conclude that, following Th.~\ref{thfond}, the optimal value of Problem~\ref{pbopt} is attained for powers of $A$ between $\ks$  and $\max\{\bigk,\ks\}$.
+We recall that $\lfrak$ is smaller than $\max_{x\in\xin} x^\intercal {A^{\ks}}^\intercal Q A^{\ks} x+q^\intercal A^{\ks} x$. Hence, the optimal value of Problem~\ref{pbopt} is greater than $\lfrak$ since $A^{\ks} (\xin)\subseteq \rea$. We conclude that, following Th.~\ref{thfond}, the optimal value of Problem~\ref{pbopt} is attained for powers of $A$ between $\ks$  and $\max\{\bigk-1,\ks\}$.
 
 \begin{corollary}
 The following statement is true :
@@ -545,11 +546,32 @@ We conclude that we can the results developed in Subsection~\ref{mainsub} where 
 \label{computations}
 The computations have been performed using Matlab. We use classical internal routines for powers of matrices  (needed for $A^{\ks}$) and  the vector Euclidean norm (needed for $\norm{q}_2$). We discuss here the computations that rely on semi-definite programming. The solver used in the development is Mosek interfaced with Yalmip. 
 
-In the computations of the two integers, we need first a matrix that satisfies the discrete Lyapunov equation. For the computation of $K(1,P)$, we need $P \in \lyaun$. We propose to compute this matrix $P$ as an optimal solution  of the semi-definite problem:
+To compute $\bigk$, we need to solve two non-convex problems on the cone of positive semi-definite matrices:
+$\inf\{K(1,P)\mid P\in\lyaun\}$ and $\inf\{K(\lmax{P^{-1/2}QP^{-1/2}},P)\mid P\in\lyap{A}\}$. The non-convexity of the two objective functions do not allow use to use classical solvers two compute these two integers. For the moment, to solve exactly the problem is left open. Consequently, in practice, we compute an element of $P_1\in\lyaun$ and an element of $P_0\in\lyap{A}$ and take the minimum between $K(1,P_1)$ and $K(\lmax{P_0^{-1/2}QP_0^{-1/2}},P_0)$. The elements $P_0$ and $P_1$  are computed as optimal solutions of linear semi-definite programs. We tried three objective functions :
+\begin{align}
+&F_0(P):=\sup_{x\in\xin} x^\intercal P x\\
+&F_1(P):=\sup_{x\in\xin} x^\intercal (P-Q) x\\
+&F_2(P):=\lmax{P}
+\end{align} 
+%First we remark that the computation of $\bigk$ needs to solve two minimization problems $\inf\{K(1,P)\mid P\in\lyaun\}$ and 
+%$\inf\{K(\lmax{P^{-1/2}QP^{-1/2}},P)\mid P\in\lyap{A}\}$. To  
+%
+%To compute an interesting integer $K(t,P)$, we tried three objective functions to compute a matrix $P$. Indeed, we do not compute $t$ and $P$ in the same time. Either, we compute $t$ before $P$ or the converse. If $t$ is computed first, we have $t=1$ following the second assertion of Prop.~\ref{comp-prop} and we compute a $P\in\lyaun$. It $P$ is computed first as an element of $ \lyap{A}$, then $t=\lmax{P^{-1/2}QP^{-1/2}}$ following the first assertion of Prop.~\ref{comp-prop} . These two 
+%
+%In the computations of the two integers, we need first a matrix that satisfies the discrete Lyapunov equation. This matrix equation 
+%appears as a constraint in the semi-definite programs. In this paper, we propose three objective convex functions on the convex cone
+%of semi-definite matrix  :
+%
+%For the computation of $K(1,P)$, we need $P \in \lyaun$. Twhere $\varepsilon$ is set to $0.01$.hus, 
+%
+%We propose to compute this matrix $P$ as an optimal solution  of the semi-definite problem:
+
+For each objective functions, we add the desired constraints (up to perturbation $\varepsilon=0.01$ to ensure the strict positiveness of discrete Lyapunov equation matrix constraint), we get two families of problems parameterized by $i=0,1,2$:
+
 \begin{equation}
 \label{eq:kunp}
 \begin{array}{llc}
-\Min & &\lmax{P}\\
+\Min & &F_i(P)\\
  & \st &\left\{\begin{array}{l} 
          P-Q\succeq 0\\
          P-A^\intercal P A-\varepsilon Id\succeq 0\\
@@ -557,20 +579,20 @@ In the computations of the two integers, we need first a matrix that satisfies t
         \end{array}\right.
 \end{array}
 \end{equation}
-where $\varepsilon$ is set to $0.01$.
 
-For the computation of $K(\lmax{P^{-1/2}QP^{-1/2}},P)$, we need an element of $\lyap{A}$. We then solve the semi-definite problem:
+and
+
 \begin{equation}
 \label{eq:klmaxp}
 \begin{array}{llc}
-\Min & &\lmax{P}\\
+\Min & & F_i(P)\\
  & \st &\left\{\begin{array}{l} 
          P-A^\intercal P A-\varepsilon Id\succeq 0\\
          P\succeq  0
         \end{array}\right.
 \end{array}
 \end{equation}
-where $\varepsilon$ is still set to $0.01$.
+
 We will write $P_1$ for an optimal solution of Pb.~\eqref{eq:kunp} and $\pmax$ for an optimal solution of Pb.~\eqref{eq:klmaxp}. 
 
 Once $\pmax$ computed, we have to compute $\lmax{\pmax^{-1/2}Q \pmax^{-1/2}}$ which can be done by semi-definite programming:
@@ -612,11 +634,58 @@ v_{k}
 \]
 We want to prove that for all $k\in\nn$, $x_{k}^2$ and $v_{k}^2$ are less than 1.
  
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Numbers/Objective functions & $F_P$ & $F_{P,Q}$ & $F_{\rm max}$ \\
+\hline
+$K_1$ & & &  \\
+\hline
+ $K_{\rm max}$ & & &  \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Numbers/Objective functions & $F_P$ & $F_{P,Q}$ & $F_{\rm max}$ \\
+\hline
+$K_1$ & & &  \\
+\hline
+ $K_{\rm max}$ & & &  \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Numbers/Objective functions & $F_P$ & $F_{P,Q}$ & $F_{\rm max}$ \\
+\hline
+$K_1$ & & &  \\
+\hline
+ $K_{\rm max}$ & & &  \\
+\hline
+\end{tabular}
+\end{center}
+
 \subsubsection{Non-Homogeneous objective function}
 We consider a property set of the form $C=\{x\in\rd\mid c^\intercal x\leq \beta,\ c^\intercal x\leq \alpha \}$ with $\alpha\leq \beta$. The latter $C$ can be rewritten as $\{x\in\rd\mid (c^\intercal x)^2-(\beta+\alpha) c^\intercal x\leq -\alpha\beta\}$. Assumption~\eqref{assumR} is true if and only $\alpha\beta< 0$ and thus only valid if $\alpha<0$. A MIEUX EXPLIQUER
 
 Let us consider the same linear system as in Subsubsection~\ref{exp-linear}. We are interested in proving that for all $k\in\nn$, $-1\leq x_k-0.5v_k\leq 2$. This is the same as proving 
 $(x_k-0.5 v_k)^2-x_k+0.5 v_k\leq 1$.
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Numbers/Objective functions & $F_P$ & $F_{P,Q}$ & $F_{\rm max}$ \\
+\hline
+$K_1$ & & &  \\
+\hline
+ $K_{\rm max}$ & & &  \\
+\hline
+\end{tabular}
+\end{center}
 \subsection{Affine systems}
 
 \subsubsection{Homogeneous objective function}
@@ -652,10 +721,46 @@ y_{k}
 \]
 
 We want to prove that for all $k\in\nn$, $x_k^2\leq 9$ and $y_k^2\leq 9$.
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Numbers/Objective functions & $F_P$ & $F_{P,Q}$ & $F_{\rm max}$ \\
+\hline
+$K_1$ & & &  \\
+\hline
+ $K_{\rm max}$ & & &  \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Numbers/Objective functions & $F_P$ & $F_{P,Q}$ & $F_{\rm max}$ \\
+\hline
+$K_1$ & & &  \\
+\hline
+ $K_{\rm max}$ & & &  \\
+\hline
+\end{tabular}
+\end{center}
 \subsubsection{Non-Homogeneous objective function}
 
-Box constraints 
+Taking the same system depicted at Eq, we want to prove that $-2\leq x_k+y_k\leq 4$ is invariant by the dynamics. 
+To prove the property this is equivalent to prove $(x_k+ y_k)^2-x_k- y_k\leq 8$. Then we 
 
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Numbers/Objective functions & $F_P$ & $F_{P,Q}$ & $F_{\rm max}$ \\
+\hline
+$K_1$ & & &  \\
+\hline
+ $K_{\rm max}$ & & &  \\
+\hline
+\end{tabular}
+\end{center}
 \section{Conclusion and Future Works}
 \label{conclusion}
 In this paper, we introduce a new class of optimization problems. This class solves verification problem coming from computer science. This class can be described as follows : the objective function is convex and quadratic and the decision variable is constrained to belong to the reachable values set of a discrete-time affine system which is not a convex set. The main issue is the infinite horizon problem. To maximize the function we can wait for an arbitrary long time. Thus the paper proposes to compute, in the case of stable affine system, a finite horizon after which the search of an optimal value is useless. The problem becomes a finite horizon problem which can be solved in a finite time. 
