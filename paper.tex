@@ -103,8 +103,8 @@ In the paper, we compute a number of steps $\bigk$ after which the search of the
 \sup\{f( g^k (x))\mid  x_0\in\xin,\ k\in \{0,\ldots,\bigk\}\}
 \end{equation}
 This number of steps $\bigk$ is valid for all possible initial values. We are looking for the best possible integer $\bigk$ for which 
-Equation~\eqref{eqintro2} is true. We propose to construct a family af integers parameterized by some positive reals and matrices solution of a discrete Lyapunov equation. The approach proposed in the paper to construct the family of integeres uses basic tools from matrix theory such as the discrete Lyapunov matrix equation, minimal and maximal eigenvalues, matrix norms and generalized Raleigh quotients. In theory, the best integer that we can propose is then the optimal value of some non-convex semi-definite program.  
-The exact resolution of this semi-definite problem is, for the moment, left open and we just provide an over-approximation of its optimal value. By doing so, it does not degrade the exact resolution of the verification problem.   However, for the moment, we propose in practice the computation of two integeres which over-approximate the best value. 
+Equation~\eqref{eqintro2} is true. We propose to construct a family of integers parameterized by some positive reals and matrices solution of a discrete Lyapunov equation. The approach proposed in the paper to construct the family of integeres uses basic tools from matrix theory such as the discrete Lyapunov matrix equation, minimal and maximal eigenvalues, matrix norms and generalized Raleigh quotients. In theory, the best integer that we can propose is then the optimal value of some non-convex semi-definite program.  
+The exact resolution of this semi-definite problem is, for the moment, left open and we just provide an over-approximation of its optimal value. By doing so, it does not degrade the exact resolution of the verification problem.   However, for the moment, we propose in practice the computation of two integers which over-approximate the best value. 
 %In practice, we use semi-definite programming to solve the discrete Lyapunov matrix equation and to compute extremal eigenvalues that we need. We end the talk by some experimental results that measure the accuracy of our approach.
 %
 %Verification linear /affine systems
@@ -113,7 +113,7 @@ The exact resolution of this semi-definite problem is, for the moment, left open
 %Control problems with reachability
 
 \paragraph{Organization of the paper}
-Section~\ref{statement} recalls in details the problem statement that is the formulation of our verification problem and its translation into a verification problem. Section~\ref{mainresults} presents the main results. We give details about the construction of the family of integers solutions of Eq.~\eqref{eqintro2}. Section~\ref{compuations} describes the practical idea used in the implementation.  Section~\ref{experiments} is devoted to the experimentation. Finally, Section~\ref{conclusion} concludes and opens future researcjh directions.
+Section~\ref{statement} recalls in details the problem statement that is the formulation of our verification problem and its translation into a verification problem. Section~\ref{mainresults} presents the main results. We give details about the construction of the family of integers solutions of Eq.~\eqref{eqintro2}. Section~\ref{computations} describes the practical idea used in the implementation.  Section~\ref{experiments} is devoted to the experimentation. Finally, Section~\ref{conclusion} concludes and opens future researcjh directions.
 \paragraph{Notations}
 In this paper, we denote by $\Idd$ the identity matrix of size $d\times d$. We denote, for a matrix $M$, by $M^\intercal$ the transpose of $M$. The set of the (square) symmetric matrices  (the matrices $M$ such that $M=M^\intercal$) of size $d$ is denoted by $\sym$.  
 
