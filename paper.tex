@@ -140,7 +140,7 @@ where:
 \begin{itemize}
 \item $A$ is a non-zero square matrix of size $d\times d$;
 \item $b$ is vector of $\rd$;
-\item  $\xin$ is a non-empty polytope (bounded polyhedra). 
+\item  $\xin$ is a non-empty polytope (bounded polyhedra) non reduced to one vector. 
 \end{itemize}
 We insist on the fact that the initial values are represented by an infinite bounded set. It can be interpreted as a set of perturbations, non-determinism, different cases...
 
@@ -182,7 +182,7 @@ For the matrix $A$ of the affine system considered at Eq.~\eqref{context}, we in
 \[
 \lyap{A}=\{P\in\sym \mid P\succ 0,\ P-A^\intercal P A\succ 0\}\enspace .
 \]
-Hence, $\rho(A)<1$ ensures that $\lyap{A}$ is non-empty. More precisely, $\rho(A)<1$ if and only if for all positive definite matrices $R$ there exists a unique positive definite matrix $P$ such that $P-A^\intercal P A=R$. \ForAuthors{reference sur stein equation}
+Hence, $\rho(A)<1$ ensures that $\lyap{A}$ is non-empty. More precisely, $\rho(A)<1$ if and only if for all positive definite matrices $R$ there exists a unique positive definite matrix $P$ such that $P-A^\intercal P A=R$.
 
 To prove some results, we need to recall some basic results presented as lemmas. The first one involves a double inequality between quadratic forms and Euclidean norm. When the quadratic form is positive definite then the double inequality proves the norm equivalence between the norm defined by the quadratic form and the Euclidean norm with explicit constants. 
 \begin{lemma}
@@ -201,7 +201,7 @@ Inequalities~\eqref{eigineg} can be formulated in term of positive semi-definite
 
 We recall Weyl's inequalities~\cite{horn1990matrix} that provide inequalities for the eigenvalues of the sum of two symmetric matrices and the sum of the eigenvalues of each matrix.  
 \begin{lemma}[Weyl's inequalities]
-\label{le}
+\label{lemmaWeyl}
 Let $M$ and $N$ be symmetric matrices. We have, for all $\ell\in\{1,\ldots,d\}$ :
 \[
 \lambda_\ell(M)+\lmin{N}\leq \lambda_\ell(M+N)\leq \lambda_\ell(M)+\lmax{N}
@@ -299,22 +299,39 @@ There exists $k\in\nn$ such that\[\min\left\{\sup_{x\in\xin} x^\intercal Q x , \
 Note that Assumption~\ref{assumR} implies that $\sup_{x\in\nn} x^\intercal Q x$ cannot be null. Even if for some $k$, the value
 $\sup_{x\in\xin} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x$ is strictly positive, the minimal value would be equal to 0. 
 Assumption~\ref{assumR} can be written as there exists  some $k\in\nn$, for which $\sup_{x\in\xin} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x$ is strictly positive and $\sup_{x\in\xin} x^\intercal Q x$ is strictly positive.
-
-\ForAuthors{Compare with zero in the interior of xin... if 0 belongs to the interior of xin then we can choose xeps=epsilon sign(q) in xin and then q.xeps >0 and xeps Q xeps nonnegative...}
-
-\ForAuthors{Q cannot be null indeed for all k the value would be negative or null}
-
-\ForAuthors{From double linear inequalities i.e. alpha<=cx<= beta, we can cast into a quadratic inequality. However if the scalar part is not negative alpha*beta, we cannot use our method. }  
+ 
 We will need the following notation :
 \[
 \ks:=\inf\left\{k\in\nn\mid \min\left\{\sup_{x\in\xin} x^\intercal Q x , \sup_{x\in\xin} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x\right\}>0\right\}
 \]
 and
 \[
-\lfrak:= \min\left\{\sup_{x\in\xin} x^\intercal Q x , \sup_{x\in\xin} x^\intercal (A^{\ks})^\intercal Q A^{\ks}k x+q^\intercal A^{\ks}x\right\}
+\lfrak:= \min\left\{\sup_{x\in\xin} x^\intercal Q x , \sup_{x\in\xin} x^\intercal (A^{\ks})^\intercal Q A^{\ks} x+q^\intercal A^{\ks}x\right\}
 \]
 
 Note that Assumption~\ref{assum1} is not sufficient to ensure the validity of Assumption~\ref{assumR}. The matrix $Q$ is only supposed to be positive semi-definite and thus $\sup_{x\in\xin} x^\intercal Q x$ can be null. Moreover, $\lfrak$ can be negative since $q^\intercal A^k x$ can be negative on $\xin$. Strongest assumptions can be made : the global positivity of $x^\intercal (A^k)^\intercal  Q A^k x+q^\intercal A^k x$ which is equivalent to check whether a matrix is definite positive or a copositivity condition relying $Q,q$ and $\xin$. 
+
+\begin{prop}
+\label{interiorprop}
+If $\xin$ contains $0$ in its interior then Assumption~\ref{assumR} holds. In this case, $\ks=0$.
+\end{prop}
+
+\begin{proof}
+Suppose that $q\neq 0$. Since 0 belongs to the interior of $\xin$, then it exists $\gamma>0$ such that $[-\gamma,\gamma]^d\subset \xin$. Let $x=\gamma q (2\norm{q}_{\infty})^{-1}$. Then $q^\intercal x=\norm{q}_2^2\norm{q}_{\infty}^{-1} >0$ and $x\in [-\gamma,\gamma]^d$. From, $Q\succeq 0$, $x^\intercal Q x+q^\intercal x>0$. We thus have $\sup_{y\in \xin}  y^\intercal Q y+q^\intercal y>0$. 
+
+Now, since $Q$ is not null, there exists $z\in\rd$ such that $z\neq 0$ and $z^\intercal Q z>0$. Taking $x=\gamma z (2\norm{z}_\infty)^{-1}$, we get $x^\intercal Q x=\gamma ^2 (2\norm{z}_\infty)^{-2} z^\intercal Q z>0$ and $x\in[-\gamma,\gamma]^d$. Then $\sup_{y\in\xin} y^\intercal Q y>0$. 
+
+Finally, $\displaystyle{\min\left\{\sup_{x\in\xin} x^\intercal Q x , \sup_{x\in\xin} x^\intercal Q x+q^\intercal x\right\}>0}$ and $\ks=0$.
+\end{proof}
+
+Prop.~\ref{interiorprop} uses the fact that there exists some $k\in\nn$ and some $x\in\xin$ for which all coordinates of $A^k x$ have the same sign as the ones of $q$. A more general proposition can be written using this fact. However, the existence of such $k$ and such $x$ cannot be decided.     
+ 
+\begin{remark}
+\label{remarklinear}
+We can apply our method when the property is defined from linear forms. 
+Let us consider the following special case. Let $\alpha,\beta\in\rr$ such that $\alpha<\beta$, and $c\in\rd$. The set $\{x\in\rd \mid \alpha \leq c^\intercal x\leq \beta\}$ can be rewritten as:
+$x^\intercal (c c^\intercal) x-(\beta+\alpha) c^\intercal x \leq -\alpha \beta$. Then we have in this case $Q=c c^\intercal$ and $q= -(\beta+\alpha) c$. With these data, if Assumption~\ref{assumR} holds then $\alpha$ is negative and $\beta$ is positive. 
+\end{remark}
 
 Now, we define the key numbers that we need to solve the verification problem. We explain latter in the proof how they are constructed. Moreover, we will study later on numerical examples how much they are accurate.  
 
@@ -329,6 +346,15 @@ where
 \vqQ(t,P):=\dfrac{\norm{q}_2 }{2\sqr{t\lmin{P}}}\quad \text{ and } \mu(P)=\sup_{x\in\xin} \sqr{x^\intercal P x}
 \]
 
+\begin{prop}
+\label{lyapunovbigk}
+Suppose that $q=0$ and $Q\in\lyap{A}$ then $K(1,Q)=1$.  
+\end{prop}
+
+\begin{proof}
+Since $Q\in\lyap{A}$ then $Q\succ 0$ and thus $\displaystyle{\sup_{x\in\xin} x^\intercal Q x>0}$ and $\ks=0$. We have $\lfrak=\displaystyle{\sup_{x\in\xin} x^\intercal Q x}$. Hence, since 
+$\sqrt{\cdot}$ is increasing then $\sqrt{\lfrak}=\displaystyle{\sup_{x\in\xin} \sqrt{x^\intercal Q x}}$. Finally, $K(1,Q)=1+\displaystyle{\ln\left(\sqrt{\lfrak}/\sqrt{\lfrak}\right) / \ln(\norm{A}_Q)}=1$.
+\end{proof}
 
 \begin{prop}
 For all $t>0$, $P\in \lyap{A}$ such that $P\in \lyat{A,Q}$, $1\leq K(t,P)< +\infty$.  
@@ -353,6 +379,8 @@ Finally, $\varepsilon<1$.
 Now from Lemma~\ref{lemma1}, $\varepsilon P=P\lmax{P}^{-1}\lmin{P-A^\intercal P A}\preceq \lmin{P-A^\intercal P A}Id_d\preceq 
 P-A^\intercal P A$ which implies that $(1-\varepsilon) P -A^\intercal P A\succeq 0$. 
 \end{proof}
+
+The result presented in Lemma~\ref{lyapnorm} explains the choice of the matrix norm. It is well-known that $\rho(A)<1$ is equivalent to the existence to a matrix norm $\norm{\cdot}$ for which $\norm{A}<1$. Here we exhibit a compatible norm. We could choose another norm but we would have to restrict the class of systems that we could analyze.    
 
 Now we prove that the argument of the natural logarithm at the numerator appearing in $K(t,P)$ lies in $(0,1]$. 
 
@@ -491,21 +519,23 @@ Now, for all $k< \ks$, for all $x\in\xin$, $\nu_k(x)\leq 0$ and for all $x\in\xi
 for all $k>k^*$, $\nu_k(x)\leq \lfrak$. The conclusion follows from $\displaystyle{\max_{x\in\xin} \max_{\ks\leq k\leq k^*} \nu_k(x)\geq \max_{x\in\xin} \nu_{\ks}(x)\geq \lfrak}$. 
 %The conclusion follows from the fact that  $\lfrak\leq \max_{x\in \mathcal{E}(\xin)} \nu_{\ks}(x)$.
 \end{proof}
-The integer $\bigk$ is the best integer than we can get in theory. In practice, we cannot compute this integer since we cannot solve the minimization problems :
-\[
-\inf_{P\in\lyaun} K(1,P)\text{ and }\inf_{P\in\lyap{A}}K(\lmax{P^{-1/2} Q P^{-1/2}},P)
-\]
-In practice, for the moment, we only compute two integers : $K( 1,P)$ where $P$ is an optimal solution of a perturbation of the minimization problem : 
-\begin{equation}
-\label{minlmaxQ}
-\inf\{\lmax{P}\mid P\in \lyaun\}
-\end{equation}
-and $K(\lmax{P^{-1/2} Q P^{-1/2}},P)$ where $P$ is an optimal solution of a perturbation of the minimization problem :
-\begin{equation}
-\label{minlyap}
-\inf\{\lmax{P}\mid P\in\lyap{A}\}\enspace .
-\end{equation}
-Then we take the minimum of the  two integers. We come back latter on the perturbation of the two minimization problems at Section~\ref{computations}.
+The integer $\bigk$ is the best integer than we can get in theory. In practice, we cannot compute $\bigk$. We will solve others semi-definite problems but we will still use the function $(t,P)\mapsto K(t,P)$. We will describe the practical approach at Section~\ref{computations}.
+
+%since we cannot solve the minimization problems :
+%\[
+%\inf_{P\in\lyaun} K(1,P)\text{ and }\inf_{P\in\lyap{A}}K(\lmax{P^{-1/2} Q P^{-1/2}},P)
+%\]
+%%In practice, for the moment, we only compute two integers : $K( 1,P)$ where $P$ is an optimal solution of a perturbation of the minimization problem : 
+%%\begin{equation}
+%%\label{minlmaxQ}
+%%\inf\{\lmax{P}\mid P\in \lyaun\}
+%%\end{equation}
+%%and $K(\lmax{P^{-1/2} Q P^{-1/2}},P)$ where $P$ is an optimal solution of a perturbation of the minimization problem :
+%%\begin{equation}
+%%\label{minlyap}
+%%\inf\{\lmax{P}\mid P\in\lyap{A}\}\enspace .
+%%\end{equation}
+%Then we take the minimum of the  two integers. We come back latter on the perturbation of the two minimization problems at Section~\ref{computations}.
 \subsection{From linear systems to affine ones}
 \label{affine}
 We come back to Problem~\eqref{context}: the case where the system is affine ($b\neq 0$).
@@ -540,18 +570,24 @@ or
 \[
 \sup_{k\in\nn} \sup_{y_0\in\xin-B} y_0^\intercal (A^k)^\intercal Q  A^k y_0+(2B+q)^\intercal A^k +B^\intercal Q B+q^\intercal B
 \]
-We conclude that we can the results developed in Subsection~\ref{mainsub} where the matrix $Q$ is unchanged and the vector $q$ to use is now $2B+q$. The polytope of initial conditions also changes since we have to consider now $\xin-B$. We have to adapt Assumption~\ref{assumR} with  and the new  $2B+q'$ and $\xin-B$.
+We conclude that we can use the results developed in Subsection~\ref{mainsub} where the matrix $Q$ is unchanged and the vector $q$ to use is now $2B+q$. The polytope of initial conditions also changes since we have to consider now $\xin-B$. We have to adapt Assumption~\ref{assumR} with the new linear part equal to $2B+q$ and the new initial polytope equal to $\xin-B$.
 
 \section{Practical computations of $K(t,P)$}
 \label{computations}
-The computations have been performed using Matlab. We use classical internal routines for powers of matrices  (needed for $A^{\ks}$) and  the vector Euclidean norm (needed for $\norm{q}_2$). We discuss here the computations that rely on semi-definite programming. The solver used in the development is Mosek interfaced with Yalmip. 
+The computations have been performed using Matlab. We use classical internal routines for powers of matrices (needed for $A^{\ks}$), the vector Euclidean norm (needed for $\norm{q}_2$) and the inverse of Id-A. We discuss here the computations that rely on semi-definite programming. The solver used in the development is Mosek~\cite{andersen2000mosek} interfaced with Yalmip~\cite{Lofberg2004}. 
 
 To compute $\bigk$, we need to solve two non-convex problems on the cone of positive semi-definite matrices:
-$\inf\{K(1,P)\mid P\in\lyaun\}$ and $\inf\{K(\lmax{P^{-1/2}QP^{-1/2}},P)\mid P\in\lyap{A}\}$. The non-convexity of the two objective functions do not allow use to use classical solvers two compute these two integers. For the moment, to solve exactly the problem is left open. Consequently, in practice, we compute an element of $P_1\in\lyaun$ and an element of $P_0\in\lyap{A}$ and take the minimum between $K(1,P_1)$ and $K(\lmax{P_0^{-1/2}QP_0^{-1/2}},P_0)$. The elements $P_0$ and $P_1$  are computed as optimal solutions of linear semi-definite programs. We tried three objective functions :
+\[
+\inf\{K(1,P)\mid P\in\lyaun\} \text{ and }\inf\{K(\lmax{P^{-1/2}QP^{-1/2}},P)\mid P\in\lyap{A}\} \enspace.
+\]
+
+The non-convexity of the two objective functions do not allow us to use classical solvers to compute these two integers. For the moment, to solve exactly the two problems is left open. Consequently, in practice, we compute an element of $P_1\in\lyaun$ and an element of $P_0\in\lyap{A}$ and take the minimum between $K(1,P_1)$ and $K(\lmax{P_0^{-1/2}QP_0^{-1/2}},P_0)$. The elements $P_0$ and $P_1$  are computed as optimal solutions of linear semi-definite programs. We tried five objective functions :
 \begin{align}
 &F_0(P):=\sup_{x\in\xin} x^\intercal P x\\
 &F_1(P):=\sup_{x\in\xin} x^\intercal (P-Q) x\\
-&F_2(P):=\lmax{P}
+&F_2(P):=\sum_{x\in\xin} x^\intercal P x\\
+&F_3(P):=\sum_{x\in\xin} x^\intercal (P-Q) x\\
+&F_4(P):=\lmax{P}
 \end{align} 
 %First we remark that the computation of $\bigk$ needs to solve two minimization problems $\inf\{K(1,P)\mid P\in\lyaun\}$ and 
 %$\inf\{K(\lmax{P^{-1/2}QP^{-1/2}},P)\mid P\in\lyap{A}\}$. To  
@@ -566,7 +602,7 @@ $\inf\{K(1,P)\mid P\in\lyaun\}$ and $\inf\{K(\lmax{P^{-1/2}QP^{-1/2}},P)\mid P\i
 %
 %We propose to compute this matrix $P$ as an optimal solution  of the semi-definite problem:
 
-For each objective functions, we add the desired constraints (up to perturbation $\varepsilon=0.01$ to ensure the strict positiveness of discrete Lyapunov equation matrix constraint), we get two families of problems parameterized by $i=0,1,2$:
+For each objective functions, we add the desired constraints (up to perturbation $\varepsilon=0.01$ to ensure the strict positiveness of discrete Lyapunov equation matrix constraint), we get two families of problems parameterized by $i=0,1,2,3,4$:
 
 \begin{equation}
 \label{eq:kunp}
@@ -592,24 +628,25 @@ and
         \end{array}\right.
 \end{array}
 \end{equation}
-
+The problems ~\eqref{eq:kunp} and~\eqref{eq:klmaxp} with the objective functions $F_0$ and $F_1$ can be rewritten as linear semi-definite programs. Indeed they are equivalent to minimize $t$ such that $t\geq x^\intercal P x$ for all $x\in\mathcal{E}( \xin)$ ($P$ being constrained to be semi-definite positive). Note also that the constraint $P-A^\intercal P A-\varepsilon Id\succeq 0$ implies that $P$ is actually positive definite.  
 We will write $P_1$ for an optimal solution of Pb.~\eqref{eq:kunp} and $\pmax$ for an optimal solution of Pb.~\eqref{eq:klmaxp}. 
+
 
 Once $\pmax$ computed, we have to compute $\lmax{\pmax^{-1/2}Q \pmax^{-1/2}}$ which can be done by semi-definite programming:
 \[
 \lmax{\pmax^{-1/2}Q \pmax^{-1/2}}=\inf\{\alpha>0\mid \alpha \pmax-Q\succeq 0\}
 \] 
 
-Now, for both $P_1$ and $\pmax$ we have to compute $\lmin{\cdot}$, $\mu(\cdot)$ and $\norm{A}_{\cdot}$. Folowing Lemma~\ref{lemma1}, since $P_1$ and $\pmax$ are symmetric, the minimal eigenvalue
+Now, for both $P_1$ and $\pmax$ we have to compute $\lmin{\cdot}$, $\mu(\cdot)$ and $\norm{A}_{\cdot}$. Following Lemma~\ref{lemma1}, since $P_1$ and $\pmax$ are symmetric, the minimal eigenvalue
 of those matrices can be computed from semi-definite programming. Indeed for all symmetric matrix $M$, we have : 
 \[
 \lmin{M}=\inf\{\alpha>0\mid M-\alpha Id\geq 0\}
 \] 
-To compute $\mu(P_1)$ and $\mu(\pmax)$ we suppose that number of vertices of $\xin$ is small and we evaluate directly $\mu(\cdot)$ by enumeration of the image of vertices of $\xin$ and choose the maximal value in the finite list. In a future work, we consider scalable techniques to compute the exact value of $\mu(\cdot)$. The square root (as it is increasing) involved $\mu(\cdot)$ can be performed at the end of the maximization process: we compute the values $x^\intercal P_1 x$ (resp. $x^\intercal \pmax x$) for all vertices; take the maximum of all of them and finally take the square root of the maximal value. 
+To compute $\mu(P_1)$ and $\mu(\pmax)$ we suppose that the number of vertices of $\xin$ is small and, following Lemma~\ref{lemma2}, we evaluate directly $\mu(\cdot)$ by enumeration of the image of vertices of $\xin$ and choose the maximal value in the finite list. In a future work, we consider scalable techniques to compute the exact value of $\mu(\cdot)$. The square root (as it is increasing) involved $\mu(\cdot)$ can be performed at the end of the maximization process: we compute the values $x^\intercal P_1 x$ (resp. $x^\intercal \pmax x$) for all vertices; take the maximum of all of them and finally take the square root of the maximal value. 
 
 Finally, following Eq.~\eqref{normdef}, the value $\norm{A}_\cdot$ is compute from semi-definite programming; taking the square root of the optimal value.
 
-To complete the computations, we have to deal with $\lfrak$. We suppose that the integer $\ks$ is given and then to compute $\lfrak$ we employ the same technique used for $\mu(\cdot)$. It suffices to browse the vertices of $\xin$ once since we evaluate, for each vertice, $\min\{x^\intercal Q x, x^\intercal {A^{\ks}}^\intercal Q {A^{\ks}}x+q^\intercal A^{\ks} x\}$ and take the maximal value. 
+To complete the computations, we have to deal with $\lfrak$. We suppose that the integer $\ks$ is given and then to compute $\lfrak$ we employ the same technique used for $\mu(\cdot)$. It suffices to browse the vertices of $\xin$ once since we evaluate, for each vertex, $\min\{x^\intercal Q x, x^\intercal {A^{\ks}}^\intercal Q {A^{\ks}}x+q^\intercal A^{\ks} x\}$ and take the maximal value. 
 \section{Experiments}
 \label{experiments}
 We decompose the experiments into two sub-classes: the linear and affine systems. Those sub-classes are separeted in three parts : the  case where the objective function is a quadratic homogeneous function; the linear case and the non-homogeneous quadratic objective function. For each cut, we provide a numerical example.  
@@ -632,57 +669,74 @@ x_{k}\\
 v_{k}
 \end{pmatrix},\ (x_0,v_0)\in [-1,1]^2
 \]
-We want to prove that for all $k\in\nn$, $x_{k}^2$ and $v_{k}^2$ are less than 1.
+We want to prove that :
+the trajectories are bounded and compute a bound over the Euclidean norm of the state-variable; for all $k\in\nn$, $x_{k}^2$ and $v_{k}^2$ are less than 1.
  
+\begin{enumerate}
+\item Boundedness. The boundedness is already proved since $\rho{A}<1$ and $A^k x$ tends to 0 as $k$ tends to $+\infty$. However, we do not have a bound over the value taken by the state-variable.  
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|}
 \hline
-Numbers/Objective functions & $F_P$ & $F_{P,Q}$ & $F_{\rm max}$ \\
+\multicolumn{6}{|c|}{$\norm{(x_k,v_k)}^2$}\\
 \hline
-$K_1$ & & &  \\
+Numbers/Objective functions & $F_0$ & $F_{1}$ & $F_{2}$ & $F_3$ & $F_4$ \\
 \hline
- $K_{\rm max}$ & & &  \\
+$K_1$ & & & & & \\
+\hline
+ $K_{\rm max}$ & & & & & \\
+\hline
+\end{tabular}
+\end{center} 
+ 
+\item The proof of $x_{k}^2\leq 1$ : 
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\multicolumn{6}{|c|}{$x_k^2$}\\
+\hline
+Numbers/Objective functions & $F_0$ & $F_{1}$ & $F_{2}$ & $F_3$ & $F_4$ \\
+\hline
+$K_1$ & & & & & \\
+\hline
+ $K_{\rm max}$ & & & & & \\
 \hline
 \end{tabular}
 \end{center}
 
-\begin{center}
-\begin{tabular}{|c|c|c|c|}
-\hline
-Numbers/Objective functions & $F_P$ & $F_{P,Q}$ & $F_{\rm max}$ \\
-\hline
-$K_1$ & & &  \\
-\hline
- $K_{\rm max}$ & & &  \\
-\hline
-\end{tabular}
-\end{center}
+\item The proof of $v_{k}^2\leq 1$ 
 
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|}
 \hline
-Numbers/Objective functions & $F_P$ & $F_{P,Q}$ & $F_{\rm max}$ \\
+\multicolumn{6}{|c|}{$v_k^2$}\\
 \hline
-$K_1$ & & &  \\
+Numbers/Objective functions & $F_0$ & $F_{1}$ & $F_{2}$ & $F_3$ & $F_4$ \\
 \hline
- $K_{\rm max}$ & & &  \\
+$K_1$ & & & & & \\
+\hline
+ $K_{\rm max}$ & & & & & \\
 \hline
 \end{tabular}
 \end{center}
+\end{enumerate}
 
 \subsubsection{Non-Homogeneous objective function}
-We consider a property set of the form $C=\{x\in\rd\mid c^\intercal x\leq \beta,\ c^\intercal x\leq \alpha \}$ with $\alpha\leq \beta$. The latter $C$ can be rewritten as $\{x\in\rd\mid (c^\intercal x)^2-(\beta+\alpha) c^\intercal x\leq -\alpha\beta\}$. Assumption~\eqref{assumR} is true if and only $\alpha\beta< 0$ and thus only valid if $\alpha<0$. A MIEUX EXPLIQUER
-
-Let us consider the same linear system as in Subsubsection~\ref{exp-linear}. We are interested in proving that for all $k\in\nn$, $-1\leq x_k-0.5v_k\leq 2$. This is the same as proving 
-$(x_k-0.5 v_k)^2-x_k+0.5 v_k\leq 1$.
+Let us consider the same linear system as in Subsubsection~\ref{exp-linear}. We are interested in proving that for all $k\in\nn$, $-1\leq x_k-0.5v_k\leq 2$. Following Remark~\ref{remarklinear}, this is the same as proving $(x_k-0.5 v_k)^2-x_k+0.5 v_k\leq 1$. Then, we have to compute the optimal value :
+\[
+\sup_{x\in\xin} \sup_{k\in\nn} x^\intercal {A^k}^\intercal Q A^k x+q^\intercal A^k  
+\]
+where $Q=\begin{pmatrix} 1 & -1/2 \\ -1/2 & 1/4\end{pmatrix}$ and $q^\intercal=(-1,1/2)$. 
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|}
 \hline
-Numbers/Objective functions & $F_P$ & $F_{P,Q}$ & $F_{\rm max}$ \\
+\multicolumn{6}{|c|}{$x^\intercal {A^k}^\intercal Q A^k x+q^\intercal A^k x$}\\
 \hline
-$K_1$ & & &  \\
+Numbers/Objective functions & $F_0$ & $F_{1}$ & $F_{2}$ & $F_3$ & $F_4$ \\
 \hline
- $K_{\rm max}$ & & &  \\
+$K_1$ & & & & & \\
+\hline
+ $K_{\rm max}$ & & & & & \\
 \hline
 \end{tabular}
 \end{center}
@@ -690,18 +744,21 @@ $K_1$ & & &  \\
 
 \subsubsection{Homogeneous objective function}
 
-Rotation plus translation 
-
-We propose to use the same linear system proposed by Ahmadi et al governed by a rotation transformation except we add a translation in the geometric transformation. For record, their system is governed by the rotation matrix:
+%Rotation plus translation 
+We propose to use the same linear system proposed by Ahmadi and G\"unl\"uk in~\cite{ahmadi2018robust} governed by a rotation transformation except we add a translation in the geometric transformation. For record, their system is governed by the (quasi) rotation matrix:
 
 \[
+A=
  \dfrac{4}{5}\begin{pmatrix}
  \cos(\theta)& sin(\theta)\\
 -sin(\theta) & \cos(\theta)
 \end{pmatrix},\text{ where }\theta=\dfrac{\pi}{6}
 \]
-We add a translation tranformation characterized by the vector $(1,-1)^\intercal$. 
-We get the system:
+
+Note that since $(5/4)A$ is a rotation matrix, then for all $x\in\rr^2$,
+$(25/16)\norm{Ax}_2^2=\norm{x}_2^2$ and thus $Id-A^\intercal Id A\succeq 0$ and $Id$ is a solution of the discrete Lyapunov equation. From Prop~\ref{lyapunovbigk}, we have $\bigk=K(1,Id)=1$. 
+  
+In our experiment, we add a translation tranformation characterized by the vector $(1,-1)^\intercal$. We get the system:
 \[
 \begin{pmatrix}
 x_{k+1}\\
@@ -723,41 +780,53 @@ y_{k}
 We want to prove that for all $k\in\nn$, $x_k^2\leq 9$ and $y_k^2\leq 9$.
 
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|}
 \hline
-Numbers/Objective functions & $F_P$ & $F_{P,Q}$ & $F_{\rm max}$ \\
+\multicolumn{6}{|c|}{$x^2_k$}\\
 \hline
-$K_1$ & & &  \\
+Numbers/Objective functions & $F_0$ & $F_{1}$ & $F_{2}$ & $F_3$ & $F_4$ \\
 \hline
- $K_{\rm max}$ & & &  \\
+$K_1$ & & & & & \\
+\hline
+ $K_{\rm max}$ & & & & & \\
 \hline
 \end{tabular}
 \end{center}
 
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|}
 \hline
-Numbers/Objective functions & $F_P$ & $F_{P,Q}$ & $F_{\rm max}$ \\
+\multicolumn{6}{|c|}{$y_k^2$}\\
 \hline
-$K_1$ & & &  \\
+Numbers/Objective functions & $F_0$ & $F_{1}$ & $F_{2}$ & $F_3$ & $F_4$ \\
 \hline
- $K_{\rm max}$ & & &  \\
+$K_1$ & & & & & \\
+\hline
+ $K_{\rm max}$ & & & & & \\
 \hline
 \end{tabular}
 \end{center}
+
+
+
 \subsubsection{Non-Homogeneous objective function}
 
-Taking the same system depicted at Eq, we want to prove that $-2\leq x_k+y_k\leq 4$ is invariant by the dynamics. 
-To prove the property this is equivalent to prove $(x_k+ y_k)^2-x_k- y_k\leq 8$. Then we 
+Taking the same system depicted at Eq, we want to prove that $-2\leq x_k+y_k\leq 4$ is invariant by the dynamics. From Remark~\ref{remarklinear}, to prove the property is equivalent to prove $(x_k+ y_k)^2-x_k- y_k\leq 8$. Then, we have to compute the optimal value :
+\[
+\sup_{x\in\xin} \sup_{k\in\nn} x^\intercal {A^k}^\intercal Q A^k x+q^\intercal A^k x  
+\]
+where $Q=\begin{pmatrix} 1 & 1 \\ 1 & 1\end{pmatrix}$ and $q^\intercal=(-1,-1)$.  
 
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|}
 \hline
-Numbers/Objective functions & $F_P$ & $F_{P,Q}$ & $F_{\rm max}$ \\
+\multicolumn{6}{|c|}{$x^\intercal {A^k}^\intercal Q A^k x+q^\intercal A^k x$}\\
 \hline
-$K_1$ & & &  \\
+Numbers/Objective functions & $F_0$ & $F_{1}$ & $F_{2}$ & $F_3$ & $F_4$ \\
 \hline
- $K_{\rm max}$ & & &  \\
+$K_1$ & & & & & \\
+\hline
+ $K_{\rm max}$ & & & & & \\
 \hline
 \end{tabular}
 \end{center}
