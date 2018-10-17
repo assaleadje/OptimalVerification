@@ -568,9 +568,9 @@ This latter expression leads to a new formulation of Problem~\eqref{pbopt}:
 \]
 or
 \[
-\sup_{k\in\nn} \sup_{y_0\in\xin-B} y_0^\intercal (A^k)^\intercal Q  A^k y_0+(2B+q)^\intercal A^k +B^\intercal Q B+q^\intercal B
+\sup_{k\in\nn} \sup_{y_0\in\xin-B} y_0^\intercal (A^k)^\intercal Q  A^k y_0+(2B^\intercal Q+q^\intercal) A^k y_0 +B^\intercal Q B+q^\intercal B
 \]
-We conclude that we can use the results developed in Subsection~\ref{mainsub} where the matrix $Q$ is unchanged and the vector $q$ to use is now $2B+q$. The polytope of initial conditions also changes since we have to consider now $\xin-B$. We have to adapt Assumption~\ref{assumR} with the new linear part equal to $2B+q$ and the new initial polytope equal to $\xin-B$.
+We conclude that we can use the results developed in Subsection~\ref{mainsub} where the matrix $Q$ is unchanged and the vector $q$ to use is now $2B+q$. The polytope of initial conditions also changes since we have to consider now $\xin-B$. We have to adapt Assumption~\ref{assumR} with the new linear part equal to $2QB+q$ and the new initial polytope equal to $\xin-B$.
 
 \section{Practical computations of $K(t,P)$}
 \label{computations}
@@ -671,9 +671,10 @@ v_{k}
 \]
 We want to prove that :
 the trajectories are bounded and compute a bound over the Euclidean norm of the state-variable; for all $k\in\nn$, $x_{k}^2$ and $v_{k}^2$ are less than 1.
+Note that Assumption~\ref{assumR} holds as the hypothesis of Prop~\ref{interiorprop} is satisfied.
  
 \begin{enumerate}
-\item Boundedness. The boundedness is already proved since $\rho{A}<1$ and $A^k x$ tends to 0 as $k$ tends to $+\infty$. However, we do not have a bound over the value taken by the state-variable.  
+\item Boundedness. The boundedness is already proved since $\rho(A)<1$ and $A^k x$ tends to 0 as $k$ tends to $+\infty$. However, we do not have a bound over the values taken by the state-variable. To bound these values, we compute the maximum of the Euclidean norm of the state-variable :   
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
@@ -681,12 +682,14 @@ the trajectories are bounded and compute a bound over the Euclidean norm of the 
 \hline
 Numbers/Objective functions & $F_0$ & $F_{1}$ & $F_{2}$ & $F_3$ & $F_4$ \\
 \hline
-$K_1$ & & & & & \\
+$K_{\rm max}$ &135 &135 &130 &130 &130 \\
 \hline
- $K_{\rm max}$ & & & & & \\
+ $K_{1}$ & 169& 169&169 &169 & 169\\
 \hline
 \end{tabular}
 \end{center} 
+
+Actually, the maximum of the square of the Euclidean norm is reached at $k=0$ (for initial conditions) and is equal to $2$. Our computations show that we have to stop at $k=130$. Note that the sequence $\sup_{x\in\xin} \norm{A^k x}_2^2$ is not decreasing i.e. $Id$ is not a solution of the discrete Lyapunov matrix equation. 
  
 \item The proof of $x_{k}^2\leq 1$ : 
 
@@ -697,12 +700,14 @@ $K_1$ & & & & & \\
 \hline
 Numbers/Objective functions & $F_0$ & $F_{1}$ & $F_{2}$ & $F_3$ & $F_4$ \\
 \hline
-$K_1$ & & & & & \\
+$K_{\rm max}$ &230 &230 & 230&230 &230 \\
 \hline
- $K_{\rm max}$ & & & & & \\
+ $K_{1}$ &188 &188 &188 &188 &188 \\
 \hline
 \end{tabular}
 \end{center}
+
+Actually, the maximum of the square of the first coordinate is reached at $k=61$ and is equal to $1.6489$. Our computations show that we have to stop at $k=188$. This disproves the property i.e. for all $k\geq 0$, $x_k^2\leq 1$ does not hold. 
 
 \item The proof of $v_{k}^2\leq 1$ 
 
@@ -713,18 +718,20 @@ $K_1$ & & & & & \\
 \hline
 Numbers/Objective functions & $F_0$ & $F_{1}$ & $F_{2}$ & $F_3$ & $F_4$ \\
 \hline
-$K_1$ & & & & & \\
+$K_{\rm max}$ &233 &233 &221 & 221&227 \\
 \hline
- $K_{\rm max}$ & & & & & \\
+ $K_{1}$ &261 &261 &261 &261 &261 \\
 \hline
 \end{tabular}
 \end{center}
+
+Actually, the maximum of the square of the second coordinate is reached at $k=0$ (for initial conditions) and is equal to $1$. Our computations show that we have to stop at $k=221$. Consequently, the property holds. Note that the sequence $\sup_{x\in\xin} (A^k x)_2^2$ is not decreasing.
 \end{enumerate}
 
 \subsubsection{Non-Homogeneous objective function}
-Let us consider the same linear system as in Subsubsection~\ref{exp-linear}. We are interested in proving that for all $k\in\nn$, $-1\leq x_k-0.5v_k\leq 2$. Following Remark~\ref{remarklinear}, this is the same as proving $(x_k-0.5 v_k)^2-x_k+0.5 v_k\leq 1$. Then, we have to compute the optimal value :
+Let us consider the same linear system as in Subsubsection~\ref{exp-linear}. We are interested in proving that for all $k\in\nn$, $-2\leq x_k-0.5v_k\leq 3$. Following Remark~\ref{remarklinear}, this is the same as proving $(x_k-0.5 v_k)^2-x_k+0.5 v_k\leq 6$. Then, we have to compute the optimal value :
 \[
-\sup_{x\in\xin} \sup_{k\in\nn} x^\intercal {A^k}^\intercal Q A^k x+q^\intercal A^k  
+\sup_{k\in\nn} x_k^\intercal Q x_k+q^\intercal x_k
 \]
 where $Q=\begin{pmatrix} 1 & -1/2 \\ -1/2 & 1/4\end{pmatrix}$ and $q^\intercal=(-1,1/2)$. 
 \begin{center}
@@ -734,12 +741,15 @@ where $Q=\begin{pmatrix} 1 & -1/2 \\ -1/2 & 1/4\end{pmatrix}$ and $q^\intercal=(
 \hline
 Numbers/Objective functions & $F_0$ & $F_{1}$ & $F_{2}$ & $F_3$ & $F_4$ \\
 \hline
-$K_1$ & & & & & \\
+$K_{\rm max}$ & 285&285 &285 &285 &285 \\
 \hline
- $K_{\rm max}$ & & & & & \\
+ $K_{1}$ &276 &276 &279 &279 &262 \\
 \hline
 \end{tabular}
 \end{center}
+
+The table shows that we should stop at the iteration $k=262$ to ensure that the maximum of $(x_k-0.5 v_k)^2-x_k+0.5 v_k$ is reached before the step. Actually the maximum is reached at iteration $k=0$ and is equal to $3.75$ which indicates that the property does hold since we wanted to prove that
+$(x_k-0.5 v_k)^2-x_k+0.5 v_k\leq 6$. 
 \subsection{Affine systems}
 
 \subsubsection{Homogeneous objective function}
@@ -757,6 +767,8 @@ A=
 
 Note that since $(5/4)A$ is a rotation matrix, then for all $x\in\rr^2$,
 $(25/16)\norm{Ax}_2^2=\norm{x}_2^2$ and thus $Id-A^\intercal Id A\succeq 0$ and $Id$ is a solution of the discrete Lyapunov equation. From Prop~\ref{lyapunovbigk}, we have $\bigk=K(1,Id)=1$. 
+
+In practice, our Matlab implementation found $Q$ as optimal solution for Problem~\eqref{eq:kunp} when the objective functions are $F_i$ with $i=1,2,3,4$ (all of them except $F_0(P)=\sup_{x\in \xin} x^\intercal P x$. For the case of optimal solutions of Problem~\eqref{eq:klmaxp}, $Q$ is never returned. In the two cases, $K(t,P)=1$ whatever the objective functions.
   
 In our experiment, we add a translation tranformation characterized by the vector $(1,-1)^\intercal$. We get the system:
 \[
@@ -777,7 +789,9 @@ y_{k}
 \end{pmatrix},\ (x_0,y_0)\in [-1,2]^2
 \]
 
-We want to prove that for all $k\in\nn$, $x_k^2\leq 9$ and $y_k^2\leq 9$.
+We want to prove that for all $k\in\nn$, $x_k^2\leq 16$ and $y_k^2\leq 16$.
+
+Note that Assumption~\ref{assumR} holds as the hypothesis of Prop~\ref{interiorprop} is satisfied.
 
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|}
@@ -786,12 +800,13 @@ We want to prove that for all $k\in\nn$, $x_k^2\leq 9$ and $y_k^2\leq 9$.
 \hline
 Numbers/Objective functions & $F_0$ & $F_{1}$ & $F_{2}$ & $F_3$ & $F_4$ \\
 \hline
-$K_1$ & & & & & \\
+$K_{\rm max}$ & 6&6 & 6&9&6 \\
 \hline
- $K_{\rm max}$ & & & & & \\
+ $K_{1}$ & 97& 97& 94&94 &8 \\
 \hline
 \end{tabular}
 \end{center}
+Actually, the maximum of the square of the first coordinate is reached at $k=1$ and is equal to $10.1483$. Our computations show that we have to stop at $k=6$. This proves the property i.e. for all $k\geq 0$, $x_k^2\leq 16$ does hold. 
 
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|}
@@ -800,36 +815,41 @@ $K_1$ & & & & & \\
 \hline
 Numbers/Objective functions & $F_0$ & $F_{1}$ & $F_{2}$ & $F_3$ & $F_4$ \\
 \hline
-$K_1$ & & & & & \\
+$K_{\rm max}$ &11 &11 &11 &12 &11 \\
 \hline
- $K_{\rm max}$ & & & & & \\
+ $K_{1}$ &264 & 273&263 & 263&19 \\
 \hline
 \end{tabular}
 \end{center}
 
+Actually, the maximum of the square of the first coordinate is reached at $k=4$ and is equal to $21.1427$. Our computations show that we have to stop at $k=11$. This disproves the property i.e. for all $k\geq 0$, $y_k^2\leq 16$ does not hold. 
 
 
 \subsubsection{Non-Homogeneous objective function}
 
-Taking the same system depicted at Eq, we want to prove that $-2\leq x_k+y_k\leq 4$ is invariant by the dynamics. From Remark~\ref{remarklinear}, to prove the property is equivalent to prove $(x_k+ y_k)^2-x_k- y_k\leq 8$. Then, we have to compute the optimal value :
+Taking the same system depicted at Eq, we want to prove that $-7\leq 0.5x_k-2y_k\leq 5$ is invariant by the dynamics. From Remark~\ref{remarklinear}, to prove the property is equivalent to prove $(0.5x_k-2 y_k)^2-x_k+4y_k\leq 35$. Then, we have to compute the optimal value :
 \[
-\sup_{x\in\xin} \sup_{k\in\nn} x^\intercal {A^k}^\intercal Q A^k x+q^\intercal A^k x  
+\sup_{k\in\nn} x_k^\intercal Q x_k+q^\intercal x_k  
 \]
-where $Q=\begin{pmatrix} 1 & 1 \\ 1 & 1\end{pmatrix}$ and $q^\intercal=(-1,-1)$.  
+where $Q=\begin{pmatrix} 1/4 & -1 \\ -1 & 4\end{pmatrix}$ and $q^\intercal=(-1,4)$.  
 
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
-\multicolumn{6}{|c|}{$x^\intercal {A^k}^\intercal Q A^k x+q^\intercal A^k x$}\\
+\multicolumn{6}{|c|}{$x_k^\intercal Q x_k+q^\intercal x_k$}\\
 \hline
 Numbers/Objective functions & $F_0$ & $F_{1}$ & $F_{2}$ & $F_3$ & $F_4$ \\
 \hline
-$K_1$ & & & & & \\
+$K_{\rm max}$ & 11&11 &11 &12 &11 \\
 \hline
- $K_{\rm max}$ & & & & & \\
+ $K_{1}$ & 27 &1100 &1114 &1114 &18 \\
 \hline
 \end{tabular}
 \end{center}
+
+The table shows that we should stop at the iteration $k=11$ to ensure that the maximum of $(0.5x_k-2 y_k)^2-x_k+4y_k$ is reached before the step $k=11$. Actually the maximum is reached at iteration $k=4$ and is equal to $73.295$ which indicates that the property does hold since we wanted to prove that
+$(x_k-0.5 v_k)^2-x_k+0.5 v_k\leq 35$.
+
 \section{Conclusion and Future Works}
 \label{conclusion}
 In this paper, we introduce a new class of optimization problems. This class solves verification problem coming from computer science. This class can be described as follows : the objective function is convex and quadratic and the decision variable is constrained to belong to the reachable values set of a discrete-time affine system which is not a convex set. The main issue is the infinite horizon problem. To maximize the function we can wait for an arbitrary long time. Thus the paper proposes to compute, in the case of stable affine system, a finite horizon after which the search of an optimal value is useless. The problem becomes a finite horizon problem which can be solved in a finite time. 
