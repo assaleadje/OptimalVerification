@@ -24,7 +24,7 @@
 \input{raccourcis}
 
 \title{Optimal Analysis of Discrete-time Affine Systems}
-\author{Assalé Adjé\\
+\author{Assalé Adjé\footnote{The author was partially supported by the PGMO program of EDF and Fondation Math\'{e}matique Jacques Hadamard. }\\
 Université of Perpignan Via Domitia\\
 LAMPS\\
 France\\
@@ -115,8 +115,6 @@ The exact resolution of this semi-definite problem is, for the moment, left open
 Section~\ref{statement} recalls in details the problem that is the formulation of our verification problem and its translation into a optimization problem. Section~\ref{mainresults} presents the main results. We give details about the construction of an integer solution of Eq.~\eqref{eqintro2}. Section~\ref{computations} describes the practical idea used in the implementation.  Section~\ref{experiments} is devoted to the experimentations. Finally, Section~\ref{conclusion} concludes and opens future research directions.
 \paragraph{Notations}
 In this paper, we denote by $\Idd$ the identity matrix of size $d\times d$. We denote, for a matrix $M$, by $M^\intercal$ the transpose of $M$. The set of the (square) symmetric matrices  (the matrices $M$ such that $M=M^\intercal$) of size $d$ is denoted by $\sym$.
-
-\ForAuthors{Utilisation de sym}  
 
 We recall that a matrix $M$ of size $d\times d$ is {\it positive semidefinite} if and only if $M$ is symmetric for all $x\in\rd$,
 $x^\intercal M x\geq 0$. Whereas the matrix $M$ is said to positive definite if and only if $M$ is symmetric for all $x\in\rd$, $x\neq 0$, 
