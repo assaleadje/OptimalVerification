@@ -49,7 +49,7 @@ To prove or disprove property even for discrete-time linear system is still an o
 
 The main motivation of the paper is to propose a technique that can be, for a given discrete-time affine system and a given property, to prove or disprove the property on the system.    
 
-\paragraph{Related works .} 
+\paragraph{Related works.} 
 The paper solves a formal verification problem. Numerous works (for example~\cite{DBLP:journals/corr/abs-1111-5223,gonnord2014abstract,mine-ESOP16,Sankaranarayanan_BenSassi__2017__Template}) about the resolution of the problem by abstract interpretation are available. They are mainly concerned in the representation of the reachable values. The over-approximations produced are not sufficient to solve a specific verification problem with a given property.
 
 Hence, we only consider related works which produce a proof for a given property. Moreover, we are focused on close techniques based on optimization theory and/ or Lyapunov functions to solve the verification problem. 
@@ -59,7 +59,7 @@ Proof techniques based on Lyapunov functions~\cite{roozbehani2013optimization,bl
 In~\cite{adje2015property}, the authors propose  an approach based on Sums-of-Squares optimization to prove property on discrete-time polynomial systems. The verification problem is reduced to an optimization problem exactly the same that we use here.  The objective function comes from the property to prove. The proof of the property requires the synthesis of a polynomial invariant i.e.  a sublevel set of a polynomial that over-approximates the reachable value set of the polynomial system. The computed sublevel is the one that minimizes the over-approximation. This approach uses abstract interpretation and then cannot disprove a property. Actually, the main issue is that we cannot prove that there is a "zero duality gap result" . The same kind of approach exists for piecewise affine systems~\cite{10.1007/978-3-319-54292-8_2} with the same disadvantages. 
 
 The closest work seems to be the work of Ahmadi et al~\cite{7403149,ahmadi2018robust} which introduces the class of robust-to-dynamics optimization problem. Ahmadi et al solve the problem where the dynamics and the objective function are linear. Moreover, they need a bounded invariant set to solve their problem. In our work, we deal with non-linear quadratic  forms and affine dynamical systems.  Moreover, we do not need a bounded invariant to solve our robust-to-dynamics optimization problem.  Nevertheless, some similarities exist between their approach and the one proposed here : the use of a solution of the discrete Lyapunov matrix equation and the computation of a number of steps to convergence.   
-\paragraph{Contributions}
+\paragraph{Contributions.}
 Our very first concern is the resolution of the verification problem for the class of discrete-time affine dynamical systems. We assume that the given property is written as the sublevel set of some quadratic function. 
 We reduced the verification problem to an optimization problem :
 \begin{equation}
@@ -82,12 +82,12 @@ The exact resolution of this semi-definite problem is, for the moment, left open
 
 %\vspace{-0.4cm}
 
-\paragraph{Organization of the paper}
+\paragraph{Organization of the paper.}
 Section~\ref{statement} states the problem i.e. the formulation of our verification problem and its translation into a optimization problem. Section~\ref{mainresults} presents the main results. We give details about the construction of an integer solution of Eq.~\eqref{eqintro2}. Section~\ref{computations} describes the practical idea used in the implementation.  Section~\ref{experiments} is devoted to the experimentations. Finally, Section~\ref{conclusion} concludes and opens future research directions.
 
 %\vspace{-0.4cm}
 
-\paragraph{Notations}
+\paragraph{Notations.}
 %In this paper, we denote by $\Idd$ the identity matrix of size $d\times d$. We denote, for a matrix $M$, by $M^\intercal$ the transpose of $M$. The set of the (square) symmetric matrices  (the matrices $M$ such that $M=M^\intercal$) of size $d$ is denoted by $\sym$.
 In this paper, we denote by $\Idd$ the identity matrix of size $d$.
 We also denote, for a matrix $M$, by $M^\intercal$ the transpose of $M$. The matrix $M$ is {\it symmetric} iff $M=M^\intercal$.
@@ -262,6 +262,9 @@ $U D^{-1/2} U^\intercal$ where $D^{-1/2}$ is the diagonal matrix whose the diago
 \label{propcont}
 For all $P\succ 0$, for all $t\in\cont(P)$, $t\geq \lmax{P^{-1/2} Q P^{-1/2}}$.
 \end{prop}
+\begin{proof}
+In appendix.
+\end{proof}
 %\begin{proof}
 %Let $P\succ 0$, let $t\in\cont(P)$. Let $x\in\rd$, $x\neq 0$. We have 
 %$x^\intercal Q x\leq t x^\intercal P x$ and thus $(x^\intercal Q x)(x^\intercal P x)^{-1}\leq t$. Finally:
@@ -316,7 +319,6 @@ $x^\intercal (c c^\intercal) x-(\beta+\alpha) c^\intercal x \leq -\alpha \beta$.
 
 Now, we define the key numbers that we need to solve the verification problem. We explain latter in the proofs how they are constructed. Moreover, we will study later on numerical examples how much they are accurate.  
 
-
 Let $t>0$ and $P\in\lyap{A}$ such that $P\in \lyat{A,Q}$. Let us define the following formula :
 \begin{equation}
 \label{intgfond}
@@ -350,7 +352,9 @@ It suffices to show that both numerator and denominator are negative and finite.
 \label{lyapnorm}
 For all $P\in\lyap{A}$, $0<\norm{A}_P<1$. 
 \end{lemma}
-
+\begin{proof}
+In appendix.
+\end{proof}
 %\begin{proof}
 %Let $P$ such that $P\succ 0$ and $P-A^\intercal P A\succ 0$.  First, the matrix $A$ is not null then its spectral radius is strictly positive. Then since $\norm{\cdot}_P$ is a matrix norm, $0<\rho(A) \leq \norm{A}_P$.
 %
@@ -374,7 +378,9 @@ For all $t>0$ and $P\in\lyap{A}$ such that $P\in\lyat{A,Q}$: \[
 \left(\lfrak+\vqQ(t,P)^2)^{1/2}-\vqQ(t,P)\right) t^{-1/2}\mu(P)^{-1}\in (0,1]\enspace .
 \]
 \end{lemma}
-
+\begin{proof}
+In appendix.
+\end{proof}
 %\begin{proof}
 %First $t>0$ and $P\succ 0$ then $t^{-1/2}\mu(P)^{-1}>0$ and $\vqQ(t,P)\geq 0$. Using Assumption~\ref{assumR}, we get $(\lfrak+\vqQ(t,P)^2)^{1/2}-\vqQ(t,P)> \vqQ(t,P)-\vqQ(t,P)=0$. We conclude that $\left((\lfrak+\vqQ(t,P)^2)^{1/2}-\vqQ(t,P)\right) t^{-1/2}\mu(P)^{-1}>0$. 
 %
@@ -408,6 +414,9 @@ The following assertions are true:
 \end{itemize}
 \end{prop}
 
+\begin{proof}
+In appendix.
+\end{proof}
 %\begin{proof}
 %Let us prove the first assertion.
 %Let $P\in\lyap{A}$. Let $t\in\cont(P)$. The integer part is increasing then we have to prove that the argument of the integer part is increasing in $t$. From Lemma~\ref{lemma2}, we know that $\ln{\norm{A}_P}<0$. Hence, since the natural logarithm is increasing it suffices to show that $\varphi:t:\mapsto \left(\sqr{\lfrak+\vqQ(t,P)^2}-\vqQ(t,P)\right)\left(\sqr{t}\mu(P)\right)^{-1}$ is decreasing. However :
@@ -447,7 +456,9 @@ Let us define \[\bigk=\min\left\{\inf_{P\in\lyaun} K(1,P),\inf_{P\in\lyap{A}} K(
 \max_{x\in \xin} x^\intercal (A^k)^\intercal Q A^k x+q^\intercal A^k x\leq \lfrak
 \]
 \end{theorem}
-
+\begin{proof}
+In appendix.
+\end{proof}
 %\begin{proof}
 %Let $t>0$ and $P\in\lyap{A}$ such that $P\in\lyat{A,Q}$. Let also $k\in\nn$ and $x\in\xin$. We have:
 %\[
@@ -897,7 +908,9 @@ Inequalities~\eqref{eigineg} can be formulated in term of positive semi-definite
 \lmin{M}\Idd\preceq M\preceq \lmax{M}\Idd
 \]
 
-We recall Weyl's inequalities~\cite{horn1990matrix} that provide inequalities for the eigenvalues of the sum of two symmetric matrices and the sum of the eigenvalues of each matrix.  
+%We recall Weyl's inequalities
+%~\cite{horn1990matrix} 
+We recall Weyl's inequalities that provide inequalities for the eigenvalues of the sum of two symmetric matrices and the sum of the eigenvalues of each matrix.  
 \begin{lemma}[Weyl's inequalities]
 \label{lemmaWeyl}
 Let $M$ and $N$ be symmetric matrices. We have, for all $\ell\in\{1,\ldots,d\}$ :
@@ -906,14 +919,19 @@ Let $M$ and $N$ be symmetric matrices. We have, for all $\ell\in\{1,\ldots,d\}$ 
 \]
 \end{lemma}
 
+Here is the proof of Proposition~\ref{propcont}. 
+
 \begin{proof}[Proposition~\ref{propcont}]
 Let $P\succ 0$, let $t\in\cont(P)$. Let $x\in\rd$, $x\neq 0$. We have 
-$x^\intercal Q x\leq t x^\intercal P x$ and thus $(x^\intercal Q x)(x^\intercal P x)^{-1}\leq t$. Finally:
+$x^\intercal Q x\leq t x^\intercal P x$ and thus $(x^\intercal Q x)(x^\intercal P x)^{-1}\leq t$. Then 
 $\sup_{x\neq 0}(x^\intercal Q x)(x^\intercal P x)^{-1}\leq t $. Writing $y=P^{1/2}x$ ( recall that $P^{1/2}$ is invertible as $P\succ 0$), we obtain :
-$\sup_{y\neq 0}(y^\intercal P^{-1/2}Q P^{-1/2}y)(y^\intercal y)^{-1}\leq t $. However, it is well-know that
+$\sup_{y\neq 0}(y^\intercal P^{-1/2}Q P^{-1/2}y)(y^\intercal y)^{-1}\leq t $. However, we have
 $\sup_{z\neq 0} (z^\intercal M z)(z^\intercal z)^{-1}=\lmax{M}$. In fact, $\lmax{M}$ is achieved for an eigenvector associated with $\lmax{M}$. Hence, 
-$\sup_{y\neq 0} (y^\intercal P^{-1/2}Q P^{-1/2}y)(y^\intercal y)^{-1}=\lmax{P^{-1/2} Q P^{-1/2}}$. Finally $\lmax{P^{-1/2} Q P^{-1/2}}P-Q\succeq 0$ is a direct consequence of Lemma~\ref{lemma1}. 
+$\sup_{y\neq 0} (y^\intercal P^{-1/2}Q P^{-1/2}y)(y^\intercal y)^{-1}=\lmax{P^{-1/2} Q P^{-1/2}}$. We conclude that $\lmax{P^{-1/2} Q P^{-1/2}}P-Q\succeq 0$ is a direct consequence of Lemma~\ref{lemma1}. 
+\qed
 \end{proof}
+
+Here is the proof of Lemma~\ref{lyapnorm}.
 
 \begin{proof}[Lemma~\ref{lyapnorm}]
 Let $P$ such that $P\succ 0$ and $P-A^\intercal P A\succ 0$.  First, the matrix $A$ is not null then its spectral radius is strictly positive. Then since $\norm{\cdot}_P$ is a matrix norm, $0<\rho(A) \leq \norm{A}_P$.
@@ -925,8 +943,10 @@ $\lmax{A^\intercal P A}=0$ and then $x^\intercal A^\intercal P A x=0$ for all $x
 Finally, $\varepsilon<1$. 
 
 Now from Lemma~\ref{lemma1}, $\varepsilon P=P\lmax{P}^{-1}\lmin{P-A^\intercal P A}\preceq \lmin{P-A^\intercal P A}Id_d\preceq 
-P-A^\intercal P A$ which implies that $(1-\varepsilon) P -A^\intercal P A\succeq 0$. 
+P-A^\intercal P A$ which implies that $(1-\varepsilon) P -A^\intercal P A\succeq 0$. \qed
 \end{proof}
+
+Here is the proof of Lemma~\ref{numerator}.
 
 \begin{proof}[Lemma~\ref{numerator}]
 First $t>0$ and $P\succ 0$ then $t^{-1/2}\mu(P)^{-1}>0$ and $\vqQ(t,P)\geq 0$. Using Assumption~\ref{assumR}, we get $(\lfrak+\vqQ(t,P)^2)^{1/2}-\vqQ(t,P)> \vqQ(t,P)-\vqQ(t,P)=0$. We conclude that $\left((\lfrak+\vqQ(t,P)^2)^{1/2}-\vqQ(t,P)\right) t^{-1/2}\mu(P)^{-1}>0$. 
@@ -943,9 +963,12 @@ $(\lfrak+\vqQ(t,P)^2)^{1/2}\leq \lfrak^{1/2}+\vqQ(t,P)$. Hence :
 
 Since $t>0$ and $P\in\lyap{A}$ satisfy $P\in\lyat{A,Q}$, then $t P-Q\succeq 0$. It follows that 
 $t x^\intercal P x\geq x^\intercal Q x$ for all $x\in \xin$. Taking the supremum over $\xin$ leads to $(\sup_{x\in\xin} x^\intercal Q x)\mu(P)^{-2}t^{-1} \leq 1$. 
+\qed
 \end{proof}
 
-\begin{proof}
+Here is the proof of Proposition~\ref{comp-prop}.
+
+\begin{proof}[Proposition~\ref{comp-prop}]
 Let us prove the first assertion.
 Let $P\in\lyap{A}$. Let $t\in\cont(P)$. The integer part is increasing then we have to prove that the argument of the integer part is increasing in $t$. From Lemma~\ref{lemma2}, we know that $\ln{\norm{A}_P}<0$. Hence, since the natural logarithm is increasing it suffices to show that $\varphi:t:\mapsto \left(\sqr{\lfrak+\vqQ(t,P)^2}-\vqQ(t,P)\right)\left(\sqr{t}\mu(P)\right)^{-1}$ is decreasing. However :
 \[
@@ -970,7 +993,10 @@ and $\norm{A}_{tP}=\norm{A}_P$. The fact $\vqQ(t,P)=\vqQ(1,tP)$ comes from the f
 &=&\displaystyle{\inf_{P\in\lyaun} K(1,P)}&
 \end{array}
 \]
+\qed
 \end{proof}
+
+Here is the proof of Theorem~\ref{thfond}.
 
 \begin{proof}[Theorem~\ref{thfond}]
 Let $t>0$ and $P\in\lyap{A}$ such that $P\in\lyat{A,Q}$. Let also $k\in\nn$ and $x\in\xin$. We have:
@@ -998,5 +1024,6 @@ where $\vqQ$ is defined at Eq.~\eqref{intgfond}. Then, $ \left(\sqrt{t}\norm{A}_
 \norm{A}_P^k\leq \left(\sqr{\lfrak+\vqQ(t,P)^2}-\vqQ(t,P)\right)\left(\sqr{t}\mu(P)\right)^{-1}
 \]
 Using the natural logarithm and Lemma~\ref{lyapnorm}, the condition  $k\geq K(t,P)$ is sufficient for the latter inequality .  The latter proof is valid for all couple $t>0$ and $P\in\lyap{A}$ such that $P\in\lyat{A,Q}$. So it remains true for   $\btilde>0$ and $\bP\in\lyap{A}$ such that $P\in\lyat{A,Q}$ and $\bigk=K(\btilde,\bP)$. 
+\qed
 \end{proof}
 \end{document}
